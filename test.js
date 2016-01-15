@@ -1,4 +1,4 @@
-var ctemplate = require('./')
+var cftemplate = require('./')
 var fs = require('fs')
 var glob = require('glob')
 var path = require('path')
@@ -13,8 +13,8 @@ glob('tests/*', function(error, results) {
         return fs.readFileSync(path.join(directory, file)).toString() }
       tape(path.basename(directory), function(test) {
         test.equal(
-          ctemplate(
-            read('input.ctemplate'),
+          cftemplate(
+            read('input.cftemplate'),
             directory,
             JSON.parse(read('context.json'))),
           read('output.cform'))

@@ -1,9 +1,9 @@
 ```shell
-npm install --global ctemplate
-mkdir my-first-ctemplate
+npm install --global cftemplate
+mkdir my-first-cftemplate
 cd my-first-template
 npm init -y
-npm install --save '@kemitchell/cf-example'
-echo "This form includes another form!\n(( require kemitchell cf-example ))" > test.ctemplate
-ctemplate test.ctemplate
+npm install --save '@kemitchell/cform-example'
+echo "This form includes another form!\n(( require kemitchell cform-example ))" > test.cftemplate
+cftemplate test.cftemplate
 ```

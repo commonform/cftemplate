@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 var argv = process.argv
 if (argv.length < 3 || argv.length > 4) {
-  process.stderr.write('Usage: ctemplate <template> [context]\n')
+  process.stderr.write('Usage: cftemplate <template> [context]\n')
   process.exit(1) }
 else {
-  var ctemplate = require('./')
+  var cftemplate = require('./')
   var fs = require('fs')
   var path = require('path')
   var templateFile = argv[2]
@@ -14,7 +14,7 @@ else {
       JSON.parse(fs.readFileSync(contextFile)) :
       {} )
   process.stdout.write(
-    ctemplate(
+    cftemplate(
       fs.readFileSync(templateFile).toString(),
       path.dirname(templateFile),
       context)) }
