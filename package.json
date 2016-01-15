@@ -1,6 +1,6 @@
 {
   "name": "cftemplate",
-  "description": "Common Form Templates",
+  "description": "write Common Forms with npm and template tags",
   "version": "0.0.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "bin": "ctemplate",
