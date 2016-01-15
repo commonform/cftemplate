@@ -7,8 +7,7 @@ var parseForm = require('commonform-markup-parse')
 var path = require('path')
 var fs = require('fs')
 
-var INDENT = /^ {4}/
-var EMPTY_LINE = /^(\s*)$/
+var EMPTY_LINE = /^( *)$/
 
 function cftemplate(template, base, context) {
   return plaintemplate(
@@ -54,15 +53,10 @@ function cftemplate(template, base, context) {
                   // If the line is empty, leave it empty.
                   line :
                   ( index === 0 ?
-                    // On the first line, replace all indentation with spaces
-                    // reflectnig the indentation of the template tag in the
-                    // template.
-                    line.replace(/^ +/, '') :
-                    // On subsequent lines with indentation, add spaces to
-                    // existing indentation.
-                    line.replace(
-                      INDENT,
-                      ' '.repeat(token.position.column - 1) )) ) })
+                      line :
+                      // On subsequent lines with indentation, add spaces to
+                      // existing indentation.
+                      ( ' '.repeat(token.position.column - 1) + line) ) ) })
             .join('\n') }
         else {
           throw addPosition(
