@@ -4,18 +4,18 @@ var glob = require('glob')
 var path = require('path')
 var tape = require('tape')
 
-glob('tests/*.ctemplate', function(error, results) {
+glob('tests/*', function(error, results) {
   if (error) {
     throw error }
   else {
-    results.forEach(function(templateFile) {
-      function withExtension(extension) {
-        return templateFile.replace('.ctemplate', extension) }
-      tape(path.basename(templateFile), function(test) {
-        var template = fs.readFileSync(templateFile).toString()
-        var context = JSON.parse(fs.readFileSync(withExtension('.json')))
-        var result = fs.readFileSync(withExtension('.cform')).toString()
+    results.forEach(function(directory) {
+      function read(file) {
+        return fs.readFileSync(path.join(directory, file)).toString() }
+      tape(path.basename(directory), function(test) {
         test.equal(
-          ctemplate(template, context),
-          result)
+          ctemplate(
+            read('input.ctemplate'),
+            directory,
+            JSON.parse(read('context.json'))),
+          read('output.cform'))
         test.end() }) }) } })
