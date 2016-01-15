@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+var argv = process.argv
+if (argv.length < 3 || argv.length > 4) {
+  process.stderr.write('Usage: ctemplate <template> [context]\n')
+  process.exit(1) }
+else {
+  var ctemplate = require('./')
+  var fs = require('fs')
+  var path = require('path')
+  var templateFile = argv[2]
+  var contextFile = argv[3]
+  var context = (
+    contextFile ?
+      JSON.parse(fs.readFileSync(contextFile)) :
+      {} )
+  process.stdout.write(
+    ctemplate(
+      fs.readFileSync(templateFile).toString(),
+      path.dirname(templateFile),
+      context)) }
