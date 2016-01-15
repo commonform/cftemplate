@@ -45,7 +45,7 @@ function cftemplate(template, base, context) {
             resolved = require(resolved).form } }
 
         if (resolved) {
-          return stringifyForm(resolved)
+          return formToMarkup(resolved)
             // split lines
             .split('\n')
             .map(function(line, index) {
@@ -88,3 +88,7 @@ function cftemplate(template, base, context) {
           return '' } } },
 
     { open: '((', close: '))', start: 'start', end: 'end' }) }
+
+function formToMarkup(form) {
+  return stringifyForm(form)
+    .replace(/^\n\n/, '') }
