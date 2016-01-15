@@ -74,10 +74,8 @@ function cftemplate(template, base, context) {
 
       else if (directive.startsWith('unless ')) {
         key = directive.substring(7)
-        if (context.hasOwnProperty(key)) {
-          return (
-            !context[key] ?
-              stringify(token.content, context, handler) : '' ) }
+        if (!context.hasOwnProperty(key) || !context[key]) {
+          return stringify(token.content, context, handler) }
         else {
           return '' } } },
 
