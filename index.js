@@ -6,6 +6,8 @@ var stringifyForm = require('commonform-markup-stringify')
 var parseForm = require('commonform-markup-parse')
 var path = require('path')
 var fs = require('fs')
+var request = require('sync-request')
+var isDigest = require('is-sha-256-hex-digest')
 
 var EMPTY_LINE = /^( *)$/
 
@@ -29,19 +31,27 @@ function cftemplate(template, base, context) {
         var split = directive.split(' ')
         var requireTarget = (
           split.length === 2 ?
-            ( './' + split[1] + '.json' ) :
+            ( isDigest(split[1]) ?
+                split[1] :
+                ( './' + split[1] + '.json' ) ) :
             ( '@' + split[1] + '/' + split[2] ) )
-        var markupFile = path.resolve(
-          base,
-          requireTarget.replace(/.json$/, '.cform'))
+
         var resolved
-        if (fs.existsSync(markupFile)) {
-          resolved = parseForm(
-            fs.readFileSync(markupFile).toString()).form }
+        if (isDigest(requireTarget)) {
+          var url = ( 'https://api.commonform.org/forms/' + requireTarget )
+          var response = request('GET', url)
+          resolved = JSON.parse(response.getBody()) }
         else {
-          resolved = resolve.sync(requireTarget, { basedir: base })
-          if (resolved) {
-            resolved = require(resolved).form } }
+          var markupFile = path.resolve(
+            base,
+            requireTarget.replace(/.json$/, '.cform'))
+          if (fs.existsSync(markupFile)) {
+            resolved = parseForm(
+              fs.readFileSync(markupFile).toString()).form }
+          else {
+            resolved = resolve.sync(requireTarget, { basedir: base })
+            if (resolved) {
+              resolved = require(resolved).form } } }
 
         if (resolved) {
           return formToMarkup(resolved)
