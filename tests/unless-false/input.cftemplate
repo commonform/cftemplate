@@ -1,1 +1,1 @@
-This template says: (( unless flag start ))The flag is not true!(( end ))
+This template says: (( unless flag begin ))The flag is not true!(( end ))

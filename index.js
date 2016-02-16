@@ -93,7 +93,7 @@ function cftemplate(template, base, context) {
         else {
           return '' } } },
 
-    { open: '((', close: '))', start: 'start', end: 'end' }) }
+    { open: '((', close: '))', start: 'begin', end: 'end' }) }
 
 function canRead(path) {
   try {
