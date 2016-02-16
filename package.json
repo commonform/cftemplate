@@ -6,7 +6,7 @@
   "bin": "cftemplate",
   "dependencies": {
     "commonform-markup-parse": "^0.2.1",
-    "commonform-markup-stringify": "^0.1.0",
+    "commonform-markup-stringify": "^0.1.1",
     "concat-stream": "^1.5.1",
     "is-sha-256-hex-digest": "^1.0.0",
     "json-parse-errback": "^1.0.1",
