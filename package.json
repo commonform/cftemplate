@@ -24,6 +24,7 @@
     "cftemplate",
     "index.js"
   ],
+  "homepage": "https://commonform.github.io",
   "license": "Apache-2.0",
   "repository": "commonform/cftemplate",
   "scripts": {
