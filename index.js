@@ -42,12 +42,16 @@ function cftemplate(template, base, context) {
           var response = request('GET', url)
           resolved = JSON.parse(response.getBody()) }
         else {
-          var markupFile = path.resolve(
-            base,
-            requireTarget.replace(/.json$/, '.cform'))
-          if (fs.existsSync(markupFile)) {
+          var markup = path.resolve(
+            base, requireTarget.replace(/.json$/, '.cform'))
+          var template = path.resolve(
+            base, requireTarget.replace(/.json$/, '.cftemplate'))
+          var directory = path.dirname(markup)
+          if (fs.existsSync(markup)) {
+            resolved = parseForm(readSync(markup)).form }
+          else if (fs.existsSync(template)) {
             resolved = parseForm(
-              fs.readFileSync(markupFile).toString()).form }
+              cftemplate(readSync(template), directory, context)).form }
           else {
             resolved = resolve.sync(requireTarget, { basedir: base })
             if (resolved) {
@@ -71,7 +75,7 @@ function cftemplate(template, base, context) {
         else {
           throw addPosition(
             new Error(),
-            ( 'Could not find package ' + requireTarget )) } }
+            ( 'Could not require ' + requireTarget )) } }
 
       else if (directive.startsWith('if ')) {
         key = directive.substring(3)
@@ -90,6 +94,9 @@ function cftemplate(template, base, context) {
           return '' } } },
 
     { open: '((', close: '))', start: 'start', end: 'end' }) }
+
+function readSync(path) {
+  return fs.readFileSync(path).toString() }
 
 function formToMarkup(form) {
   return stringifyForm(form)
