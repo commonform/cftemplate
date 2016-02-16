@@ -47,9 +47,9 @@ function cftemplate(template, base, context) {
           var template = path.resolve(
             base, requireTarget.replace(/.json$/, '.cftemplate'))
           var directory = path.dirname(markup)
-          if (fs.existsSync(markup)) {
+          if (canRead(markup)) {
             resolved = parseForm(readSync(markup)).form }
-          else if (fs.existsSync(template)) {
+          else if (canRead(template)) {
             resolved = parseForm(
               cftemplate(readSync(template), directory, context)).form }
           else {
@@ -94,6 +94,13 @@ function cftemplate(template, base, context) {
           return '' } } },
 
     { open: '((', close: '))', start: 'start', end: 'end' }) }
+
+function canRead(path) {
+  try {
+    fs.accessSync(path, fs.R_OK)
+    return true }
+  catch (error) {
+    return false } }
 
 function readSync(path) {
   return fs.readFileSync(path).toString() }
