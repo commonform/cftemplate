@@ -14,22 +14,23 @@
 
 module.exports = cftemplate
 
+var detect = require('async.detectseries')
+var getForm = require('commonform-get-form')
+var getProject = require('commonform-get-project')
+var parseJSON = require('json-parse-errback')
 var plaintemplate = require('plaintemplate')
-var resolve = require('resolve')
 var stringifyForm = require('commonform-markup-stringify')
-var parseForm = require('commonform-markup-parse')
+var parseMarkup = require('commonform-markup-parse')
 var path = require('path')
 var fs = require('fs')
-var request = require('sync-request')
 var isDigest = require('is-sha-256-hex-digest')
 
 var EMPTY_LINE = /^( *)$/
+var PROJECT = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
 
-function cftemplate(template, base, context) {
-  return plaintemplate(
-    template,
-    context,
-    function handler(token, context, stringify) {
+function cftemplate(template, base, context, callback) {
+  var processor = plaintemplate(
+    function handler(token, context, stringify, callback) {
       var key
       var directive = token.tag.trim()
 
@@ -41,83 +42,108 @@ function cftemplate(template, base, context) {
         error.position = token.position
         return error }
 
-      if (directive.startsWith('require ')) {
-        var split = directive.split(' ')
-        var requireTarget = (
-          split.length === 2 ?
-            ( isDigest(split[1]) ?
-                split[1] :
-                ( './' + split[1] + '.json' ) ) :
-            ( '@' + split[1] + '/' + split[2] ) )
+      function format(form) {
+        return formToMarkup(form)
+          // split lines
+          .split('\n')
+          .map(function(line, index) {
+            return (
+              EMPTY_LINE.test(line)
+                // If the line is empty, leave it empty.
+                ? line
+                : ( index === 0 ?
+                    line :
+                    // On subsequent lines with indentation, add spaces to
+                    // existing indentation.
+                    ( ' '.repeat(token.position.column - 1) + line) ) ) })
+          .join('\n') }
 
-        var resolved
-        if (isDigest(requireTarget)) {
-          var url = ( 'https://api.commonform.org/forms/' + requireTarget )
-          var response = request('GET', url)
-          resolved = JSON.parse(response.getBody()) }
-        else {
-          var markup = path.resolve(
-            base, requireTarget.replace(/.json$/, '.cform'))
-          var template = path.resolve(
-            base, requireTarget.replace(/.json$/, '.cftemplate'))
-          var directory = path.dirname(markup)
-          if (canRead(markup)) {
-            resolved = parseForm(readSync(markup)).form }
-          else if (canRead(template)) {
-            resolved = parseForm(
-              cftemplate(readSync(template), directory, context)).form }
+      if (isDigest(directive)) {
+        getForm(directive, function(error, form) {
+          if (error) {
+            callback(error) }
           else {
-            resolved = resolve.sync(requireTarget, { basedir: base })
-            if (resolved) {
-              resolved = require(resolved).form } } }
+            callback(null, format(form)) } }) }
 
-        if (resolved) {
-          return formToMarkup(resolved)
-            // split lines
-            .split('\n')
-            .map(function(line, index) {
-              return (
-                EMPTY_LINE.test(line) ?
-                  // If the line is empty, leave it empty.
-                  line :
-                  ( index === 0 ?
-                      line :
-                      // On subsequent lines with indentation, add spaces to
-                      // existing indentation.
-                      ( ' '.repeat(token.position.column - 1) + line) ) ) })
-            .join('\n') }
-        else {
-          throw addPosition(
-            new Error(),
-            ( 'Could not require ' + requireTarget )) } }
+      else if (PROJECT.test(directive)) {
+        var match = PROJECT.exec(directive)
+        var publisher = match[1]
+        var project = match[2]
+        var edition = match[3]
+        getProject(publisher, project, edition, function(error, project) {
+          if (error) {
+            addPosition(error)
+            callback(error) }
+          else {
+            getForm(project.form, function(error, form) {
+              if (error) {
+                callback(error) }
+              else {
+                callback(null, format(form)) } }) } }) }
+
+      else if (directive.startsWith('require ')) {
+        var split = directive.split(' ')
+        var target = ( './' + split[1] )
+        var markup = path.resolve(base, ( target + '.cform' ))
+        var template = path.resolve(base, ( target + '.cftemplate' ))
+        var json = path.resolve(base, ( target + '.json' ))
+        var directory = path.dirname(markup)
+        detect(
+          [ template, markup, json ],
+          function(path, done) {
+            fs.access(path, fs.R_OK, function(error) {
+              done(error ? false : true) }) },
+          function(file) {
+            if (file === undefined) {
+              callback(
+                addPosition(
+                  new Error(),
+                  ( 'Could not require ' + target ))) }
+            else {
+              fs.readFile(file, 'utf8', function(error, content) {
+                if (error) {
+                  callback(error) }
+                else {
+                  if (file === markup) {
+                    callback(null, format(parseMarkup(content).form)) }
+                  else if (file === json) {
+                    parseJSON(content, function(error, form) {
+                      if (error) {
+                        callback(error) }
+                      else {
+                        callback(null, format(form)) } }) }
+                  else {
+                    cftemplate(content, directory, context, function(error, markup) {
+                      if (error) {
+                        callback(error) }
+                      else {
+                        callback(
+                          null,
+                          format(parseMarkup(markup).form)) } }) } } }) } }) }
 
       else if (directive.startsWith('if ')) {
         key = directive.substring(3)
         if (context.hasOwnProperty(key)) {
-          return (
-            !context[key] ?
-              '' : stringify(token.content, context, handler) ) }
+          if (!context[key]) {
+            callback(null, '') }
+          else {
+            stringify(
+              token.content,
+              context,
+              handler,
+              callback) } }
         else {
-          return '' } }
+          callback(null, '') } }
 
       else if (directive.startsWith('unless ')) {
         key = directive.substring(7)
         if (!context.hasOwnProperty(key) || !context[key]) {
-          return stringify(token.content, context, handler) }
+          stringify(token.content, context, handler, callback) }
         else {
-          return '' } } },
-
-    { open: '((', close: '))', start: 'begin', end: 'end' }) }
-
-function canRead(path) {
-  try {
-    fs.accessSync(path, fs.R_OK)
-    return true }
-  catch (error) {
-    return false } }
-
-function readSync(path) {
-  return fs.readFileSync(path).toString() }
+          callback(null, '') } }
+       },
+    { open: '((', close: '))', start: 'begin', end: 'end' })
+  processor(template, context, callback) }
 
 function formToMarkup(form) {
   return stringifyForm(form)

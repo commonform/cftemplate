@@ -5,14 +5,15 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "bin": "cftemplate",
   "dependencies": {
+    "async.detectseries": "^0.5.2",
+    "commonform-get-form": "^1.0.0",
+    "commonform-get-project": "^1.0.0",
     "commonform-markup-parse": "^0.2.1",
     "commonform-markup-stringify": "^0.1.1",
     "concat-stream": "^1.5.1",
     "is-sha-256-hex-digest": "^1.0.0",
-    "json-parse-errback": "^1.0.1",
-    "plaintemplate": "^0.1.3",
-    "resolve": "^1.1.6",
-    "sync-request": "^3.0.0"
+    "json-parse-errback": "^2.0.0",
+    "plaintemplate": "^1.0.1"
   },
   "devDependencies": {
     "glob": "^6.0.4",

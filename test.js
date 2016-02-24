@@ -26,10 +26,11 @@ glob('tests/*', function(error, results) {
       function read(file) {
         return fs.readFileSync(path.join(directory, file)).toString() }
       tape(path.basename(directory), function(test) {
-        test.equal(
-          cftemplate(
-            read('input.cftemplate'),
-            directory,
-            JSON.parse(read('context.json'))),
-          read('output.cform'))
-        test.end() }) }) } })
+        cftemplate(
+          read('input.cftemplate'),
+          directory,
+          JSON.parse(read('context.json')),
+          function(error, result) {
+            test.error(error)
+            test.equal(result, read('output.cform'))
+            test.end() }) }) }) } })
