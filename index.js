@@ -30,7 +30,11 @@ var EMPTY_LINE = /^( *)$/
 var PROJECT = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
 
 function cftemplate(template, base, context, callback) {
+
+  // Build a template processor using Plaintemplate.
   var processor = plaintemplate(
+
+    // Provide a custom template tag handler.
     function handler(token, context, stringify, callback) {
       var key
       var directive = token.tag.trim()
@@ -151,10 +155,11 @@ function cftemplate(template, base, context, callback) {
         if (!context.hasOwnProperty(key) || !context[key]) {
           stringify(token.content, context, handler, callback) }
         else {
-          callback(null, '') } }
-       },
+          callback(null, '') } } },
+
     // Plaintemplate directive tokens.
     { open: '((', close: '))', start: 'begin', end: 'end' })
+
   // Apply the customized Plaintemplate processor to arguments.
   processor(template, context, callback) }
 
