@@ -15,7 +15,7 @@
     "plaintemplate": "^1.0.1"
   },
   "devDependencies": {
-    "glob": "^6.0.4",
+    "glob": "^7.0.0",
     "tape": "^4.4.0"
   },
   "files": [
