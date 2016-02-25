@@ -13,8 +13,9 @@ else {
     contextFile ?
       JSON.parse(fs.readFileSync(contextFile)) :
       { } )
-  process.stdout.write(
-    cftemplate(
-      fs.readFileSync(templateFile).toString(),
-      path.dirname(templateFile),
-      context)) }
+  cftemplate(
+    fs.readFileSync(templateFile).toString(),
+    path.dirname(templateFile),
+    context,
+    function(error, output) {
+      process.stdout.write(output) }) }
