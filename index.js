@@ -35,6 +35,7 @@ function cftemplate(template, base, context, callback) {
       var key
       var directive = token.tag.trim()
 
+      // Add position information to errors.
       function addPosition(error, message) {
         error.message = (
           message + ' at ' +
@@ -43,6 +44,7 @@ function cftemplate(template, base, context, callback) {
         error.position = token.position
         return error }
 
+      // Format markup for insertion at the current position.
       function format(form) {
         return formToMarkup(form)
           // split lines
@@ -59,6 +61,8 @@ function cftemplate(template, base, context, callback) {
                     ( ' '.repeat(token.position.column - 1) + line) ) ) })
           .join('\n') }
 
+      // `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f95d6e2705c37 ))`
+      // Inserts a form from api.commonform.org, by digest.
       if (isDigest(directive)) {
         getForm(directive, function(error, form) {
           if (error) {
@@ -66,6 +70,8 @@ function cftemplate(template, base, context, callback) {
           else {
             callback(null, format(form)) } }) }
 
+      // `(( test/test-form@1e ))`
+      // Inserts a form referenced by projects.commonform.org.
       else if (PROJECT.test(directive)) {
         var match = PROJECT.exec(directive)
         var publisher = match[1]
@@ -82,6 +88,8 @@ function cftemplate(template, base, context, callback) {
               else {
                 callback(null, format(form)) } }) } }) }
 
+      // `(( require some-file ))`
+      // Inserts a form from a local file.
       else if (directive.startsWith('require ')) {
         var split = directive.split(' ')
         var target = ( './' + split[1] )
@@ -122,6 +130,7 @@ function cftemplate(template, base, context, callback) {
                           null,
                           format(parseMarkup(markup).form)) } }) } } }) } }) }
 
+      // `(( if payingInCash begin )) conditional text (( end ))`
       else if (directive.startsWith('if ')) {
         key = directive.substring(3)
         if (context.hasOwnProperty(key)) {
@@ -136,6 +145,7 @@ function cftemplate(template, base, context, callback) {
         else {
           callback(null, '') } }
 
+      // `(( unless payingInCash begin )) conditional text (( end ))`
       else if (directive.startsWith('unless ')) {
         key = directive.substring(7)
         if (!context.hasOwnProperty(key) || !context[key]) {
@@ -143,7 +153,9 @@ function cftemplate(template, base, context, callback) {
         else {
           callback(null, '') } }
        },
+    // Plaintemplate directive tokens.
     { open: '((', close: '))', start: 'begin', end: 'end' })
+  // Apply the customized Plaintemplate processor to arguments.
   processor(template, context, callback) }
 
 function formToMarkup(form) {
