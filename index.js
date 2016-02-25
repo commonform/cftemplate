@@ -27,9 +27,15 @@ var plaintemplate = require('plaintemplate')
 var stringifyForm = require('commonform-markup-stringify')
 
 var EMPTY_LINE = /^( *)$/
+// Regular expression for references to projects.
+// Example: `test/test-form@1e`
 var PROJECT = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
 
-function cftemplate(template, base, context, callback) {
+function cftemplate(
+  template, // String of template content to process.
+  base, // Directory to search for required files.
+  context, // Key-value object holding template variable values.
+  callback) {
 
   // Build a template processor using Plaintemplate.
   var processor = plaintemplate(
@@ -106,17 +112,24 @@ function cftemplate(template, base, context, callback) {
         var template = path.resolve(base, ( target + '.cftemplate' ))
         var json = path.resolve(base, ( target + '.json' ))
         var directory = path.dirname(markup)
+        // The file to require may be a template (.cftemplate), Common Form
+        // markup (.cform), or a Common Form in native JSON format (.json).
+        // Check each of those file extensions, in that order, and process the
+        // first matching file.
         detect(
           [ template, markup, json ],
+          // Can we read the file?
           function(path, done) {
             fs.access(path, fs.R_OK, function(error) {
               done(error ? false : true) }) },
           function(file) {
+            // Couldn't find any matching files.
             if (file === undefined) {
               callback(
                 addPosition(
                   new Error(),
                   ( 'Could not require ' + target ))) }
+            // Found a matching file.
             else {
               fs.readFile(file, 'utf8', function(error, content) {
                 if (error) {
@@ -130,6 +143,8 @@ function cftemplate(template, base, context, callback) {
                         callback(error) }
                       else {
                         callback(null, format(form)) } }) }
+                  // If the file is a template, recursively apply `cftemplate`
+                  // to it.
                   else {
                     cftemplate(
                       content,
@@ -164,7 +179,8 @@ function cftemplate(template, base, context, callback) {
     // Plaintemplate directive tokens.
     { open: '((', close: '))', start: 'begin', end: 'end' })
 
-  // Apply the customized Plaintemplate processor to arguments.
+  // Apply the customized Plaintemplate processor to arguments and yield its
+  // result, the resulting Common Form markup.
   processor(template, context, callback) }
 
 function formToMarkup(form) {
