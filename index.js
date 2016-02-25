@@ -57,7 +57,7 @@ function cftemplate(
       // Format markup for insertion at the current position.
       function format(form) {
         return formToMarkup(form)
-          // split lines
+          // Split lines.
           .split('\n')
           .map(function(line, index) {
             return (
@@ -163,7 +163,13 @@ function cftemplate(
         key = directive.substring(7)
         if (!context.hasOwnProperty(key) || !context[key]) {
           stringify(token.content, context, handler, callback) }
-        else { callback(null, '') } } },
+        else { callback(null, '') } }
+
+      else {
+        callback(
+          addPosition(
+            new Error(),
+            ( 'Invalid directive ' + directive ))) } },
 
     // Plaintemplate directive tokens.
     { open: '((', close: '))', start: 'begin', end: 'end' })
