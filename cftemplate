@@ -12,7 +12,7 @@ else {
   var context = (
     contextFile ?
       JSON.parse(fs.readFileSync(contextFile)) :
-      {} )
+      { } )
   process.stdout.write(
     cftemplate(
       fs.readFileSync(templateFile).toString(),

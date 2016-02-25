@@ -16,15 +16,15 @@
 module.exports = cftemplate
 
 var detect = require('async.detectseries')
+var fs = require('fs')
 var getForm = require('commonform-get-form')
 var getProject = require('commonform-get-project')
+var isDigest = require('is-sha-256-hex-digest')
 var parseJSON = require('json-parse-errback')
-var plaintemplate = require('plaintemplate')
-var stringifyForm = require('commonform-markup-stringify')
 var parseMarkup = require('commonform-markup-parse')
 var path = require('path')
-var fs = require('fs')
-var isDigest = require('is-sha-256-hex-digest')
+var plaintemplate = require('plaintemplate')
+var stringifyForm = require('commonform-markup-stringify')
 
 var EMPTY_LINE = /^( *)$/
 var PROJECT = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
@@ -58,14 +58,15 @@ function cftemplate(template, base, context, callback) {
               EMPTY_LINE.test(line)
                 // If the line is empty, leave it empty.
                 ? line
-                : ( index === 0 ?
-                    line :
-                    // On subsequent lines with indentation, add spaces to
-                    // existing indentation.
-                    ( ' '.repeat(token.position.column - 1) + line) ) ) })
+                : ( index === 0
+                    ? line
+                    // On subsequent lines with indentation, add spaces
+                    // to existing indentation.
+                    : ( ' '.repeat(token.position.column - 1) +
+                        line) ) ) })
           .join('\n') }
 
-      // `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f95d6e2705c37 ))`
+      // `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f... ))`
       // Inserts a form from api.commonform.org, by digest.
       if (isDigest(directive)) {
         getForm(directive, function(error, form) {
@@ -81,16 +82,20 @@ function cftemplate(template, base, context, callback) {
         var publisher = match[1]
         var project = match[2]
         var edition = match[3]
-        getProject(publisher, project, edition, function(error, project) {
-          if (error) {
-            addPosition(error)
-            callback(error) }
-          else {
-            getForm(project.form, function(error, form) {
-              if (error) {
-                callback(error) }
-              else {
-                callback(null, format(form)) } }) } }) }
+        getProject(
+          publisher,
+          project,
+          edition,
+          function(error, project) {
+            if (error) {
+              addPosition(error)
+              callback(error) }
+            else {
+              getForm(project.form, function(error, form) {
+                if (error) {
+                  callback(error) }
+                else {
+                  callback(null, format(form)) } }) } }) }
 
       // `(( require some-file ))`
       // Inserts a form from a local file.
@@ -126,13 +131,16 @@ function cftemplate(template, base, context, callback) {
                       else {
                         callback(null, format(form)) } }) }
                   else {
-                    cftemplate(content, directory, context, function(error, markup) {
-                      if (error) {
-                        callback(error) }
-                      else {
-                        callback(
-                          null,
-                          format(parseMarkup(markup).form)) } }) } } }) } }) }
+                    cftemplate(
+                      content,
+                      directory,
+                      context,
+                      function(error, markup) {
+                        if (error) {
+                          callback(error) }
+                        else {
+                          var output = format(parseMarkup(markup).form)
+                          callback(null, output) } }) } } }) } }) }
 
       // `(( if payingInCash begin )) conditional text (( end ))`
       else if (directive.startsWith('if ')) {
@@ -141,11 +149,7 @@ function cftemplate(template, base, context, callback) {
           if (!context[key]) {
             callback(null, '') }
           else {
-            stringify(
-              token.content,
-              context,
-              handler,
-              callback) } }
+            stringify(token.content, context, handler, callback) } }
         else {
           callback(null, '') } }
 
