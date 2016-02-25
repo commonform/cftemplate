@@ -76,10 +76,8 @@ function cftemplate(
       // Inserts a form from api.commonform.org, by digest.
       if (isDigest(directive)) {
         getForm(directive, function(error, form) {
-          if (error) {
-            callback(error) }
-          else {
-            callback(null, format(form)) } }) }
+          if (error) { callback(error) }
+          else { callback(null, format(form)) } }) }
 
       // `(( test/test-form@1e ))`
       // Inserts a form referenced by projects.commonform.org.
@@ -98,10 +96,8 @@ function cftemplate(
               callback(error) }
             else {
               getForm(project.form, function(error, form) {
-                if (error) {
-                  callback(error) }
-                else {
-                  callback(null, format(form)) } }) } }) }
+                if (error) { callback(error) }
+                else { callback(null, format(form)) } }) } }) }
 
       // `(( require some-file ))`
       // Inserts a form from a local file.
@@ -132,17 +128,14 @@ function cftemplate(
             // Found a matching file.
             else {
               fs.readFile(file, 'utf8', function(error, content) {
-                if (error) {
-                  callback(error) }
+                if (error) { callback(error) }
                 else {
                   if (file === markup) {
                     callback(null, format(parseMarkup(content).form)) }
                   else if (file === json) {
                     parseJSON(content, function(error, form) {
-                      if (error) {
-                        callback(error) }
-                      else {
-                        callback(null, format(form)) } }) }
+                      if (error) { callback(error) }
+                      else { callback(null, format(form)) } }) }
                   // If the file is a template, recursively apply `cftemplate`
                   // to it.
                   else {
@@ -151,8 +144,7 @@ function cftemplate(
                       directory,
                       context,
                       function(error, markup) {
-                        if (error) {
-                          callback(error) }
+                        if (error) { callback(error) }
                         else {
                           var output = format(parseMarkup(markup).form)
                           callback(null, output) } }) } } }) } }) }
@@ -161,20 +153,17 @@ function cftemplate(
       else if (directive.startsWith('if ')) {
         key = directive.substring(3)
         if (context.hasOwnProperty(key)) {
-          if (!context[key]) {
-            callback(null, '') }
+          if (!context[key]) { callback(null, '') }
           else {
             stringify(token.content, context, handler, callback) } }
-        else {
-          callback(null, '') } }
+        else { callback(null, '') } }
 
       // `(( unless payingInCash begin )) conditional text (( end ))`
       else if (directive.startsWith('unless ')) {
         key = directive.substring(7)
         if (!context.hasOwnProperty(key) || !context[key]) {
           stringify(token.content, context, handler, callback) }
-        else {
-          callback(null, '') } } },
+        else { callback(null, '') } } },
 
     // Plaintemplate directive tokens.
     { open: '((', close: '))', start: 'begin', end: 'end' })
