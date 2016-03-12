@@ -9,12 +9,25 @@ else {
   var path = require('path')
   var templateFile = argv[2]
   var contextFile = argv[3]
-  var context = (
-    contextFile ?
-      JSON.parse(fs.readFileSync(contextFile)) :
-      { } )
+  var context = { }
+  if (contextFile) {
+    try {
+      var contextJSON = fs.readFileSync(contextFile) }
+    catch (error) {
+      process.stderr.write('Could not read ' + contextFile + '.\n')
+      process.exit(1) }
+    try {
+      context = JSON.parse(contextJSON) }
+    catch (error) {
+      process.sterr.write('Invalid JSON.\n')
+      process.exit(1) } }
+  try {
+    var template = fs.readFileSync(templateFile).toString() }
+  catch (error) {
+    process.sterr.write('Could note read template.\n')
+    process.exit(1) }
   cftemplate(
-    fs.readFileSync(templateFile).toString(),
+    template,
     path.dirname(templateFile),
     context,
     function(error, output) {
