@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "glob": "^7.0.0",
+    "standard": "^8.0.0-beta.5",
     "tape": "^4.4.0"
   },
   "files": [
@@ -28,6 +29,7 @@
   "license": "Apache-2.0",
   "repository": "commonform/cftemplate",
   "scripts": {
+    "lint": "standard",
     "test": "tape test.js"
   }
 }

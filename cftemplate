@@ -2,8 +2,8 @@
 var argv = process.argv
 if (argv.length < 3 || argv.length > 4) {
   process.stderr.write('Usage: cftemplate <template> [context]\n')
-  process.exit(1) }
-else {
+  process.exit(1)
+} else {
   var cftemplate = require('./')
   var fs = require('fs')
   var path = require('path')
@@ -12,23 +12,34 @@ else {
   var context = { }
   if (contextFile) {
     try {
-      var contextJSON = fs.readFileSync(contextFile) }
-    catch (error) {
+      var contextJSON = fs.readFileSync(contextFile)
+    } catch (error) {
       process.stderr.write('Could not read ' + contextFile + '.\n')
-      process.exit(1) }
+      process.exit(1)
+    }
     try {
-      context = JSON.parse(contextJSON) }
-    catch (error) {
+      context = JSON.parse(contextJSON)
+    } catch (error) {
       process.sterr.write('Invalid JSON.\n')
-      process.exit(1) } }
+      process.exit(1)
+    }
+  }
   try {
-    var template = fs.readFileSync(templateFile).toString() }
-  catch (error) {
+    var template = fs.readFileSync(templateFile).toString()
+  } catch (error) {
     process.sterr.write('Could note read template.\n')
-    process.exit(1) }
+    process.exit(1)
+  }
   cftemplate(
     template,
     path.dirname(templateFile),
     context,
-    function(error, output) {
-      process.stdout.write(output) }) }
+    function (error, output) {
+      if (error) {
+        throw error
+      } else {
+        process.stdout.write(output)
+      }
+    }
+  )
+}
