@@ -12,7 +12,7 @@ cftemplate form.cftemplate variables.json > form.cform
 
 # Template Directives
 
-- `(( publisher/projects@edition ))` includes a project from projects.commonform.org.
+- `(( publisher/projects@edition ))` includes a project from api.commonform.org.
 
 - `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f95d6e2705c37 ))` includes a form from api.commonform.org.
 
