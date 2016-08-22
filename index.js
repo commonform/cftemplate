@@ -19,7 +19,7 @@ var detect = require('async.detectseries')
 var e = require('ecb')
 var fs = require('fs')
 var getForm = require('commonform-get-form')
-var getProject = require('commonform-get-project')
+var getPublication = require('commonform-get-publication')
 var isDigest = require('is-sha-256-hex-digest')
 var parseJSON = require('json-parse-errback')
 var parseMarkup = require('commonform-markup-parse')
@@ -28,9 +28,9 @@ var plaintemplate = require('plaintemplate')
 var stringifyForm = require('commonform-markup-stringify')
 
 var EMPTY_LINE = /^( *)$/
-// Regular expression for references to projects.
+// Regular expression for references to publications.
 // Example: `test/test-form@1e`
-var PROJECT = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
+var PUBLICATION = /^([a-z]+)\/([a-z-]+)@([0-9eucd]+)$/
 
 function cftemplate (
   template, // String of template content to process.
@@ -84,21 +84,21 @@ function cftemplate (
 
       // `(( test/test-form@1e ))`
       // Inserts a form referenced by projects.commonform.org.
-      } else if (PROJECT.test(directive)) {
-        var match = PROJECT.exec(directive)
+      } else if (PUBLICATION.test(directive)) {
+        var match = PUBLICATION.exec(directive)
         var publisher = match[1]
         var project = match[2]
         var edition = match[3]
-        getProject(
+        getPublication(
           publisher,
           project,
           edition,
-          function (error, project) {
+          function (error, publication) {
             if (error) {
               addPosition(error)
               callback(error)
             } else {
-              getForm(project.form, e(callback, function (form) {
+              getForm(publication.digest, e(callback, function (form) {
                 callback(null, format(form))
               }))
             }
