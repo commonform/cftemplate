@@ -16,6 +16,7 @@
 module.exports = cftemplate
 
 var detect = require('async.detectseries')
+var e = require('ecb')
 var fs = require('fs')
 var getForm = require('commonform-get-form')
 var getProject = require('commonform-get-project')
@@ -77,13 +78,9 @@ function cftemplate (
       // `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f... ))`
       // Inserts a form from api.commonform.org, by digest.
       if (isDigest(directive)) {
-        getForm(directive, function (error, form) {
-          if (error) {
-            callback(error)
-          } else {
-            callback(null, format(form))
-          }
-        })
+        getForm(directive, e(callback, function (form) {
+          callback(null, format(form))
+        }))
 
       // `(( test/test-form@1e ))`
       // Inserts a form referenced by projects.commonform.org.
@@ -101,13 +98,9 @@ function cftemplate (
               addPosition(error)
               callback(error)
             } else {
-              getForm(project.form, function (error, form) {
-                if (error) {
-                  callback(error)
-                } else {
-                  callback(null, format(form))
-                }
-              })
+              getForm(project.form, e(callback, function (form) {
+                callback(null, format(form))
+              }))
             }
           }
         )
@@ -141,39 +134,27 @@ function cftemplate (
               )
             // Found a matching file.
             } else {
-              fs.readFile(file, 'utf8', function (error, content) {
-                if (error) {
-                  callback(error)
+              fs.readFile(file, 'utf8', e(callback, function (content) {
+                if (file === markup) {
+                  callback(null, format(parseMarkup(content).form))
+                } else if (file === json) {
+                  parseJSON(content, e(callback, function (form) {
+                    callback(null, format(form))
+                  }))
+                // If the file is a template, recursively apply
+                // `cftemplate` to it.
                 } else {
-                  if (file === markup) {
-                    callback(null, format(parseMarkup(content).form))
-                  } else if (file === json) {
-                    parseJSON(content, function (error, form) {
-                      if (error) {
-                        callback(error)
-                      } else {
-                        callback(null, format(form))
-                      }
-                    })
-                  // If the file is a template, recursively apply
-                  // `cftemplate` to it.
-                  } else {
-                    cftemplate(
-                      content,
-                      directory,
-                      context,
-                      function (error, markup) {
-                        if (error) {
-                          callback(error)
-                        } else {
-                          var output = format(parseMarkup(markup).form)
-                          callback(null, output)
-                        }
-                      }
-                    )
-                  }
+                  cftemplate(
+                    content,
+                    directory,
+                    context,
+                    e(callback, function (markup) {
+                      var output = format(parseMarkup(markup).form)
+                      callback(null, output)
+                    }
+                  ))
                 }
-              })
+              }))
             }
           }
         )
