@@ -7,13 +7,14 @@
 
 -- usage: gt -depth | l
 
-abstract Bool = {
-  flags startcat = Exp;
-  cat Exp;
+abstract Boolop = {
+  flags startcat = CFtest;
+  cat Exp; CFtest;
   fun
-    And, Or :  Exp ->  Exp -> Exp;
-    Paren   :  Exp -> Exp;
+    And, Or     : Exp -> Exp -> Exp;
+    Not         : Exp -> Exp;
     Alpha, Beta : Exp;
+    CF          : Exp -> CFtest;
 }
         
 
