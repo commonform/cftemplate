@@ -9,11 +9,11 @@
 
 abstract Bool = {
   flags startcat = Exp;
-  cat Exp; Atom;
+  cat Exp;
   fun
     And, Or :  Exp ->  Exp -> Exp;
-    Simple  : Atom -> Exp;
-    Alpha, Beta : Atom;
+    Paren   :  Exp -> Exp;
+    Alpha, Beta : Exp;
 }
         
 
