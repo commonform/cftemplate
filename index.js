@@ -240,12 +240,12 @@ function parseBooleanExpression (text) {
       }      
       else
           word += char
-  }      
-  // console.log(word,sexp)
-  if(sexp[0].length === 0 && word.length > 0) 
-    return word;  
-  if(sexp[0].length === 1 && typeof sexp[0][0] === 'string')
-    return sexp[0][0]
+  }
+  if(word) {
+    sexp[sexp.length-1].push(word)
+    word = ''
+  }
+  
   return sexp[0]
 }
 
