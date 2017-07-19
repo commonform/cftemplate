@@ -1,7 +1,7 @@
 incomplete concrete BoolopI of Boolop = open Prelude, LexBoolop in {
   lincat
     Exp = { s : Str ; b : Bool };
-    CFtest = Str;
+    CFtest, CFout = Str;
   lin
     And x y = { s = paren (x.s ++ " and " ++ y.s) ; b = andB x.b y.b } ;
     Or  x y = { s = paren (x.s ++ " or "  ++ y.s) ; b =  orB x.b y.b } ;
