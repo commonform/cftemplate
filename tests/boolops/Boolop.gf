@@ -9,12 +9,13 @@
 
 abstract Boolop = {
   flags startcat = CFtest;
-  cat Exp; CFtest;
+  cat Exp; CFtest; CFout;
   fun
     And, Or     : Exp -> Exp -> Exp;
     Not         : Exp -> Exp;
     Alpha, Beta : Exp;
-    CF          : Exp -> CFtest;
+    CFt         : Exp -> CFtest;
+    CFo         : Exp -> CFout;
 }
         
 
