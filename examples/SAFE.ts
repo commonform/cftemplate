@@ -2,10 +2,11 @@
 
 // http://choly.ca/post/typescript-json/ may be relevant one day
 
-let cftemplate = require('../')
-var fs = require('fs')
-var glob = require('glob')
-var path = require('path')
+const cftemplate = require('../')
+const fs = require('fs')
+const glob = require('glob')
+const path = require('path')
+const stdio = require("stdio");
 
 interface Common {
     "Change of Control Voting Block Threshold": string, // percentage string, ends with %
@@ -35,7 +36,20 @@ function read(file) {
     return fs.readFileSync(file).toString()
 }
 
-export function controller(userJSON) {
+function new_merge_prefer_first<O1,O2>(obj1:O1,obj2:O2) : O1 | O2 {
+    const rv = {} as O1|O2;
+    Object.getOwnPropertyNames(obj2).forEach((name) => {
+        (rv as any)[name] = (obj2 as any)[name];
+    });
+    Object.getOwnPropertyNames(obj1).forEach((name) => {
+        (rv as any)[name] = (obj1 as any)[name];
+    });
+    
+       
+    return rv;
+}
+
+export function controller(userJSON: Common) {
     let [controlJSON, guessedSpecies] = guessSpecies(userJSON);
     let [validationError, validation_rv] = validate(guessedSpecies, controlJSON, userJSON); // should be either a Cap, Discount, CapDiscount, or MFN -- can typescript do that?
     if (validationError) {
@@ -44,8 +58,9 @@ export function controller(userJSON) {
     else {
         // turn the cftemplate into a commonform
 
-        var mergedJSON = {};
-        Object.assign(mergedJSON, userJSON, controlJSON);
+        const mergedJSON = new_merge_prefer_first(userJSON,controlJSON);
+
+        
 
         console.log("running cftemplate now! wish me luck!");
 
@@ -85,7 +100,6 @@ function validate(species, controljson, userjson): [boolean, string] {
     return [false, "this is fine."];
 }
 
-import stdio = require("stdio");
 let opt = stdio.getopt();
 console.log("moo");
 

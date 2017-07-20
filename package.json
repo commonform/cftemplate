@@ -13,9 +13,11 @@
     "ecb": "^1.0.0",
     "is-sha-256-hex-digest": "^1.0.0",
     "json-parse-errback": "^2.0.0",
-    "plaintemplate": "^1.0.1"
+    "plaintemplate": "^1.0.1",
+    "stdio": "^0.2.7"
   },
   "devDependencies": {
+    "@types/node": "^8.0.14",
     "glob": "^7.0.0",
     "standard": "^8.0.0-beta.5",
     "tape": "^4.4.0"
