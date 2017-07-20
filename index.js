@@ -161,53 +161,57 @@ function cftemplate (
 
       // `(( if payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('if ')) {
-
         expression_text = directive.substring(3)
-        try {
-          expression = parseBooleanExpression(expression_text)          
-          value = evalParsedBooleanExpression(expression,context)
-          if(value) 
-            stringify(token.content, context, handler, callback)          
-          else 
-            callback(null,'')
-        }
-        catch(e) {
-          console.log("\nError in the new boolean expressions code:", e)
-        }
 
-        // This is the code that the previous code replaces. It's faster, if that matters.
-        // key = directive.substring(3)
-        // if (context.hasOwnProperty(key)) {
-        //   if (!context[key]) {
-        //     callback(null, '')
-        //   } else {
-        //     stringify(token.content, context, handler, callback)
-        //   }
-        // } else {
-        //   callback(null, '')
-        // }
-
+        // first check if it's just a variable. this is just an optimization
+        // over going straight to the else block.
+        if (context.hasOwnProperty(key)) {
+          if (!context[key]) {        
+            callback(null, '')
+          } else {
+            stringify(token.content, context, handler, callback)
+          }          
+        }
+        else {
+          try {
+            expression = parseBooleanExpression(expression_text)          
+            value = evalParsedBooleanExpression(expression,context)
+            if(value) 
+              stringify(token.content, context, handler, callback)          
+            else 
+              callback(null,'')
+          }
+          catch(e) {
+            console.log("\nError in the new boolean expressions code:", e)
+          }
+        }
+        
       // `(( unless payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('unless ')) {
         expression_text = directive.substring(7)
-        try {
-          expression = parseBooleanExpression(expression_text)          
-          value = evalParsedBooleanExpression(expression,context)
-          if(!value) 
-            stringify(token.content, context, handler, callback)
-          else 
-            callback(null,'')
-        }
-        catch(e) {
-          console.log("\nError in the new boolean expressions code:", e)
-        }
 
-        // key = directive.substring(7)
-        // if (!context.hasOwnProperty(key) || !context[key]) {
-        //   stringify(token.content, context, handler, callback)
-        // } else {
-        //   callback(null, '')
-        // }
+        // first check if it's a present but falsey variable. this is just an optimization
+        // over going straight to the else block.
+        if (context.hasOwnProperty(key)) {
+          if (!context[key]) {        
+            stringify(token.content, context, handler, callback)            
+          } else {
+            callback(null, '')
+          }          
+        }
+        else {
+          try {
+            expression = parseBooleanExpression(expression_text)          
+            value = evalParsedBooleanExpression(expression,context)
+            if(!value) 
+              stringify(token.content, context, handler, callback)
+            else 
+              callback(null,'')
+          }
+          catch(e) {
+            console.log("\nError in the new boolean expressions code:", e)
+          }
+        }
 
       // Invalid directive
       } else {
