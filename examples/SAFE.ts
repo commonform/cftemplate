@@ -16,7 +16,9 @@ interface Common {
     "Investor Name": string,
     "Purchase Amount": string,
     "Purchase Date": string, // can we fromJSON this into a Date?
-    "Time Notice is Effective after Deposit in the Mail": string
+    "Time Notice is Effective after Deposit in the Mail": string,
+    "Discount Rate": string | undefined,
+    "Valuation Cap": string | undefined
 }
 
 interface Cap extends Common { "Valuation Cap": string }
@@ -80,12 +82,20 @@ function guessSpecies(userJSON: Common): [ControlJSON, Species] {
     };
     let species: Species;
 
-    if (userJSON.hasOwnProperty("Discount Rate")
-        && undefined != (userJSON as Discount)["Discount Rate"]
-        && nonzero((userJSON as Discount)["Discount Rate"])) { controlJSON.discount = true }
-    if (userJSON.hasOwnProperty("Valuation Cap")
-        && undefined != (userJSON as Cap)["Valuation Cap"]
-        && nonzero((userJSON as Cap)["Valuation Cap"])) { controlJSON.cap = true }
+    // if (userJSON.hasOwnProperty("Discount Rate")
+    //     && undefined != userJSON["Discount Rate"]
+    //     && nonzero(userJSON["Discount Rate"])) { controlJSON.discount = true }
+    // if (userJSON.hasOwnProperty("Valuation Cap")
+    //     && undefined != userJSON["Valuation Cap"]
+    //     && nonzero(userJSON["Valuation Cap"])) { controlJSON.cap = true }
+
+    let discount_rate = userJSON["Discount Rate"];    
+    if(discount_rate && nonzero(discount_rate))
+        controlJSON.discount = true;
+    let cap = userJSON["Valuation Cap"];
+    if(cap && nonzero(cap))
+        controlJSON.cap = true;
+
 
     if (controlJSON.discount && controlJSON.cap) { species = Species.CapDiscount }
     else if (controlJSON.discount) { species = Species.Discount }
