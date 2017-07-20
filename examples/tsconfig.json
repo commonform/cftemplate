@@ -6,7 +6,7 @@
         "module": "commonjs",
         
         // apparently this doesn't work anymore???
-        "outDir": "out" 
+        "outDir": "out", 
 
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
