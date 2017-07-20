@@ -1,6 +1,4 @@
 
-module.exports = controller;
-
 // 4 Change of Control Voting Block Threshold
 // 4 Company Legal Form
 // 4 Company Name
@@ -36,19 +34,19 @@ interface controlJSON { cap: boolean, discount: boolean }
 
 enum Species { Cap, Discount, CapDiscount, MFN }
 
-function nonzero(in : string): boolean {
-    return (Number(in) > 0);
+function nonzero(input : string): boolean {
+    return (Number(input) > 0);
 }
 
-function controller(userJSON) {
+export function controller(userJSON) {
     let guessedSpecies = guessSpecies(userJSON);
-    let validate = validate(guessedSpecies, userJSON); // should be either a Cap, Discount, CapDiscount, or MFN -- can typescript do that?
+    let validate_rv = validate(guessedSpecies, userJSON); // should be either a Cap, Discount, CapDiscount, or MFN -- can typescript do that?
 }
 
-function guessedSpecies(userJSON: Common) = {
+function guessSpecies(userJSON: Common) : Species {
     let controlJSON: controlJSON = {
-        cap  = false,
-        discount = false
+        cap  : false,
+        discount : false
     };
     let species: Species;
 
@@ -59,13 +57,15 @@ function guessedSpecies(userJSON: Common) = {
         && undefined != userJSON["Valuation Cap"]
         && nonzero(userJSON["Valuation Cap"])) { controlJSON.cap = true }
 
-    if (controlJSON.discount && controlJSON.cap) { species = CapDiscount }
-    else if (controlJSON.discount) { species = Discount }
-    else if (controlJSON.cap) { species = Cap }
-    else { species = MFN }
+    if (controlJSON.discount && controlJSON.cap) { species = Species.CapDiscount }
+    else if (controlJSON.discount) { species = Species.Discount }
+    else if (controlJSON.cap) { species = Species.Cap }
+    else { species = Species.MFN }
+
+    return species
 }
 
-function validate {
+function validate(species, json) {
     // does typescript approve of the JSON object?
     // or should we be using http://json-schema.org/
 }

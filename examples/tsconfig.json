@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "es5",
+        "lib": ["es6"],
+        "module": "commonjs",
+        "allowJs" : true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+//        "pretty": true,
+//        "declarationDir": "out/dts",
+
+        "strictNullChecks": true, 
+
+        // apparetly this doesn't work anymore???
+        "outDir": "out/js" 
+        
+        
+    },
+
+    // just an optimization
+    "exclude": [        
+        "node_modules"        
+    ]
+}
