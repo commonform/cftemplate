@@ -1,6 +1,6 @@
 {
-	"b":true,
-	"c":false,
-	"d":false,
-	"m":false
+	"CapDiscount":true,
+	"Cap":false,
+	"Discount":false,
+	"MFN":false
 }

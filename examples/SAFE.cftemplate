@@ -1,19 +1,19 @@
     \!! This instrument and any securities issuable pursuant hereto have not been registered under the Securities Act of 1933, as amended (the ""Act""), or under the securities laws of certain states. These securities may not be offered, sold or otherwise transferred, pledged or hypothecated except as permitted under the <Act> and applicable state securities laws pursuant to an effective registration statement or an exemption therefrom.
 
     \\ This certifies that in exchange for the payment by [Investor Name] (the ""Investor"") of [Purchase Amount] (the ""Purchase Amount"") on or about [Purchase Date], [Company Name], a [Company Legal Form] (the ""Company""), hereby issues to the <Investor> the right to certain shares of the <Company>'s capital stock, subject to the terms set forth below.
-((if (b or c) begin))
+((if (CapDiscount or Cap) begin))
     \\ The ""Valuation Cap"" of this <SAFE> is [Valuation Cap].
 ((end))((
-if (b or d) begin))
+if (CapDiscount or Discount) begin))
     \\ The ""Discount Rate"" of this <SAFE> is [Discount Rate].
 ((end))((
-if (b or c or d) begin))
+if (CapDiscount or Cap or Discount) begin))
     \\ See {Definitions} for certain additional defined terms.
 ((end))
     \ Events \
 
         \ Equity Financing \ If there is an <Equity Financing> before the expiration or termination of this instrument, the <Company> will automatically issue to the <Investor>((
-if b begin)) a number of shares of <SAFE Preferred Stock> equal to the <Purchase Amount> divided by either
+if CapDiscount begin)) a number of shares of <SAFE Preferred Stock> equal to the <Purchase Amount> divided by either
 
             \\ the <SAFE Price> or
 
@@ -21,28 +21,28 @@ if b begin)) a number of shares of <SAFE Preferred Stock> equal to the <Purchase
 
         whichever calculation results in a greater number of shares of <SAFE Preferred Stock>.
 ((end))((
-if c begin)) either:
+if Cap begin)) either:
 
             \\ a number of shares of <Standard Preferred Stock> sold in the <Equity Financing> equal to the <Purchase Amount> divided by the price per share of the <Standard Preferred Stock>, if the pre-money valuation is less than or equal to the <Valuation Cap>; or
 
             \\ a number of shares of <SAFE Preferred Stock> equal to the <Purchase Amount> divided by the <SAFE Price>, if the pre-money valuation is greater than the <Valuation Cap>.
 ((end))((
-if d begin)) a number of shares of <SAFE Preferred Stock> equal to the <Purchase Amount> divided by the <Discount Price>.
+if Discount begin)) a number of shares of <SAFE Preferred Stock> equal to the <Purchase Amount> divided by the <Discount Price>.
 ((end))((
-if m begin)) a number of shares of preferred stock sold in the <Equity Financing> equal to the <Purchase Amount> divided by the price per share of the preferred stock.
+if MFN begin)) a number of shares of preferred stock sold in the <Equity Financing> equal to the <Purchase Amount> divided by the price per share of the preferred stock.
 ((end))
         In connection with the issuance of ((
-if (b or d) begin))<SAFE Preferred Stock>((end))((
-if c begin))<Standard Preferred Stock> or <SAFE Preferred Stock>, as applicable,((end))((
-if m begin))such shares of preferred stock((
+if (CapDiscount or Discount) begin))<SAFE Preferred Stock>((end))((
+if Cap begin))<Standard Preferred Stock> or <SAFE Preferred Stock>, as applicable,((end))((
+if MFN begin))such shares of preferred stock((
 end)) by the <Company> to the <Investor> pursuant to this provision:
 
             \\ The <Investor> will execute and deliver to the <Company> all transaction documents related to the <Equity Financing>; provided, that such transaction documents are the same documents to be entered into with the purchasers of the ((
-if (b or d) begin))<Standard Preferred Stock>, with appropriate variations for the <SAFE Preferred Stock>;
+if (CapDiscount or Discount) begin))<Standard Preferred Stock>, with appropriate variations for the <SAFE Preferred Stock>;
 ((end))((
-if c begin))<Standard Preferred Stock>, with appropriate variations for the <SAFE Preferred Stock> if applicable;
+if Cap begin))<Standard Preferred Stock>, with appropriate variations for the <SAFE Preferred Stock> if applicable;
 ((end))((
-if m begin))preferred stock;
+if MFN begin))preferred stock;
 ((end))
             \\ The <Investor> and the <Company> will execute a <Pro Rata Rights Agreement>, unless the <Investor> is already included in such rights in the transaction documents related to the <Equity Financing>; and
 
@@ -53,9 +53,9 @@ if m begin))preferred stock;
             \ Cash Payment \ receive a cash payment equal to the <Purchase Amount> (subject to {Automatic Conversion}) or
 
             \ Automatic Conversion \ automatically receive from the <Company> a number of shares of <Common Stock> equal to the <Purchase Amount> divided by the 
-((if (b or c or d) begin))<Liquidity Price>, if the <Investor> fails to select the cash option. Thereafter, this instrument will expire and terminate.
+((if (CapDiscount or Cap or Discount) begin))<Liquidity Price>, if the <Investor> fails to select the cash option. Thereafter, this instrument will expire and terminate.
 ((end))((
-if m begin))fair market value of the <Common Stock> at the time of the <Liquidity Event> (determined by reference to the purchase price payable in connection with such <Liquidity Event>) (the ""Liquidity Price""), if the <Investor> fails to select the cash option. Thereafter, this instrument will expire and terminate.
+if MFN begin))fair market value of the <Common Stock> at the time of the <Liquidity Event> (determined by reference to the purchase price payable in connection with such <Liquidity Event>) (the ""Liquidity Price""), if the <Investor> fails to select the cash option. Thereafter, this instrument will expire and terminate.
 ((end))
             In connection with {Cash Payment}, the <Purchase Amount> will be due and payable by the <Company> to the <Investor> immediately prior to, or concurrent with, the consummation of the <Liquidity Event>. If there are not enough funds to pay the <Investor> and holders of other <SAFE>s (collectively, the ""Cash-Out Investors"") in full, then all of the <Company>'s available funds will be distributed with equal priority and pro rata among the <Cash-Out Investors> in proportion to their <Purchase Amount>s, and the <Cash-Out Investors> will automatically receive the number of shares of <Common Stock> equal to the remaining unpaid <Purchase Amount> divided by the <Liquidity Price>. In connection with a <Change of Control> intended to qualify as a tax-free reorganization, the <Company> may reduce, pro rata, the <Purchase Amount>s payable to the <Cash-Out Investors> by the amount determined by its board of directors in good faith to be advisable for such <Change of Control> to qualify as a tax-free reorganization for U.S. federal income tax purposes, and in such case, the <Cash-Out Investors> will automatically receive the number of shares of <Common Stock> equal to the remaining unpaid <Purchase Amount> divided by the <Liquidity Price>.
 
@@ -65,14 +65,14 @@ if m begin))fair market value of the <Common Stock> at the time of the <Liquidit
 
         \\ ""Change of Control"" means
 
-            \\ a transaction or series of related transactions in which any "person" or "group" (within the meaning of Section 13(d) and 14(d) of the Securities Exchange Act of 1934, as amended), becomes the "beneficial owner" (as defined in Rule 13d-3 under the Securities Exchange Act of 1934, as amended), directly or indirectly, of more than [Change of Control Voting Block Threshold] of the outstanding voting securities of the <Company> having the right to vote for the election of members of the <Company>'s board of directors,
+            \\ a transaction or series of related transactions in which any "person" or "group" (within the meaning of Section 13(Discount) and 14(Discount) of the Securities Exchange Act of 1934, as amended), becomes the "beneficial owner" (as defined in Rule 13d-3 under the Securities Exchange Act of 1934, as amended), directly or indirectly, of more than [Change of Control Voting Block Threshold] of the outstanding voting securities of the <Company> having the right to vote for the election of members of the <Company>'s board of directors,
 
             \\ any reorganization, merger or consolidation of the <Company>, other than a transaction or series of related transactions in which the holders of the voting securities of the <Company> outstanding immediately prior to such transaction or series of related transactions retain, immediately after such transaction or series of related transactions, at least a majority of the total voting power represented by the outstanding voting securities of the <Company> or such other surviving or resulting entity or
 
             \\ a sale, lease or other disposition of all or substantially all of the assets of the <Company>.
 
         \\ ""Common Stock"" means the common stock of the <Company>.
-((if (b or c) begin))
+((if (CapDiscount or Cap) begin))
         \\ ""Company Capitalization"" means the sum of:
 
             \\ all shares of the <Company>'s capital stock (on an as-converted basis) issued and outstanding, assuming exercise or conversion of all outstanding vested and unvested options, warrants and other convertible securities, but excluding
@@ -85,7 +85,7 @@ if m begin))fair market value of the <Common Stock> at the time of the <Liquidit
 
             \\ all shares of <Common Stock> reserved and available for future grant under any equity incentive or similar plan of the <Company>, including any equity incentive or similar plan created or increased in connection with the <Equity Financing>.
 ((end))((
-if (b or d) begin))
+if (CapDiscount or Discount) begin))
         \\ ""Discount Price"" means the product of the price per share of the <Standard Preferred Stock> sold in the <Equity Financing> multiplied by the <Discount Rate>.
 ((end))
         \\ ""Distribution"" means the transfer to holders of the <Company>'s capital stock by reason of their ownership of such stock of cash or other property without consideration whether by way of dividend or otherwise, other than dividends on the <Common Stock> payable in <Common Stock>, or the purchase or redemption of shares of the <Company> by the <Company> or its subsidiaries for cash or property other than:
@@ -105,9 +105,9 @@ if (b or d) begin))
             \\ any other liquidation, dissolution or winding up of the <Company> (excluding a <Liquidity Event>), whether voluntary or involuntary.
 
         \\ ""Equity Financing"" means a bona fide transaction or series of transactions with the principal purpose 
-((if (b or c or d) begin))of raising capital, pursuant to which the <Company> issues and sells shares of preferred stock of the <Company> at a fixed pre-money valuation.
+((if (CapDiscount or Cap or Discount) begin))of raising capital, pursuant to which the <Company> issues and sells shares of preferred stock of the <Company> at a fixed pre-money valuation.
 ((end))((
-if m begin))to raise capital, pursuant to which the <Company> issues and sells shares of preferred stock of the <Company> at a fixed pre-money valuation with an aggregate sales price of not less than [Equity Financing Purchase Price Threshold] (excluding all <Subsequent Convertible Securities>).
+if MFN begin))to raise capital, pursuant to which the <Company> issues and sells shares of preferred stock of the <Company> at a fixed pre-money valuation with an aggregate sales price of not less than [Equity Financing Purchase Price Threshold] (excluding all <Subsequent Convertible Securities>).
 ((end))
         \\ ""Initial Public Offering"" means the closing of the <Company>'s first firm commitment underwritten initial public offering of the <Common Stock> pursuant to a registration statement filed under the Securities Act of 1933, as amended (the ""Securities Act"").
 
@@ -122,16 +122,16 @@ if m begin))to raise capital, pursuant to which the <Company> issues and sells s
             \\ convertible promissory notes.
 
         \\ ""Liquidity Event"" means a <Change of Control> or an <Initial Public Offering>.
-((if (b or c or d) begin))
+((if (CapDiscount or Cap or Discount) begin))
         \\ ""Liquidity Price"" means the price per share equal to the quotient obtained by dividing
 ((end))((
-if (b or c) begin))
+if (CapDiscount or Cap) begin))
             \\ the <Valuation Cap> by
 ((end))((
-if d begin))
+if Discount begin))
             \\ [Liquidity Price Numerator] by
 ((end))((
-if (b or c or d) begin))
+if (CapDiscount or Cap or Discount) begin))
             \\ the <Liquidity Capitalization> as of immediately prior to the <Liquidity Event>.
 ((end))
 
@@ -143,15 +143,15 @@ if (b or c or d) begin))
 
         \\ ""SAFE"" means an instrument containing a future right to the <Company>'s capital stock, similar in form and content to this instrument, purchased by investors for the purpose of funding the <Company>'s business operations.
 
-((if (b or c or d) begin))
+((if (CapDiscount or Cap or Discount) begin))
         \\ ""SAFE Preferred Stock"" means the shares of a series of the <Company>'s preferred stock issued to the <Investor> in an <Equity Financing>, which will have the identical rights, privileges, preferences and restrictions as the shares of <Standard Preferred Stock>, other than with respect to the per share liquidation preference, which will equal the ((end))
-((if b begin))<SAFE Price> or the <Discount Price> (as applicable), as well as price-based antidilution protection and dividend rights, which will be based on such <SAFE Price> or the <Discount Price> (as applicable).
+((if CapDiscount begin))<SAFE Price> or the <Discount Price> (as applicable), as well as price-based antidilution protection and dividend rights, which will be based on such <SAFE Price> or the <Discount Price> (as applicable).
 ((end))((
-if c begin))<SAFE Price>, as well as price-based antidilution protection and dividend rights, which will be based on such <SAFE Price>.
+if Cap begin))<SAFE Price>, as well as price-based antidilution protection and dividend rights, which will be based on such <SAFE Price>.
 ((end))((
-if d begin))<Discount Price>, as well as price-based antidilution protection and dividend rights, which will be based on such <Discount Price>.
+if Discount begin))<Discount Price>, as well as price-based antidilution protection and dividend rights, which will be based on such <Discount Price>.
 ((end))((
-if (b or c) begin))
+if (CapDiscount or Cap) begin))
         \\ ""SAFE Price"" means the price per share equal to the quotient obtained by dividing
 
             \\ the <Valuation Cap> by
@@ -162,10 +162,10 @@ if (b or c) begin))
 
                 \\ the capitalization of the <Company> used to calculate the price per share of the <Standard Preferred Stock>, whichever calculation results in a lower price.
 ((end))((
-if (b or c or d) begin))
+if (CapDiscount or Cap or Discount) begin))
         \\ ""Standard Preferred Stock"" means the shares of a series of the <Company>'s preferred stock issued to the investors investing new money in the <Company> in connection with the initial closing of the <Equity Financing>.
 ((end))((
-if m begin))
+if MFN begin))
     \\ ""Subsequent Convertible Securities"" means convertible securities that the <Company> may issue after the issuance of this instrument for with the principal purpose of raising capital, including but not limited to, other <SAFE>s, convertible debt instruments and other convertible securities.  <Subsequent Convertible Securities> excludes
 
         \\ options issued pursuant to any equity incentive or similar plan of the <Company>,
