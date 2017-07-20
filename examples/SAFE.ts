@@ -2,13 +2,14 @@
 
 // http://choly.ca/post/typescript-json/ may be relevant one day
 
-const cftemplate = require('../')
-const fs = require('fs')
-const glob = require('glob')
-const path = require('path')
-const stdio = require("stdio");
+const cftemplate = require('../index.js');
+const fs = require('fs');
+const glob = require('glob');
+const path = require('path');
+const stdio = require('stdio');
 
 interface Common {
+    [index:string]:string;
     "Change of Control Voting Block Threshold": string, // percentage string, ends with %
     "Company Legal Form": string,
     "Company Name": string,
@@ -24,7 +25,7 @@ interface Discount extends Common { "Discount Rate": string }
 interface CapDiscount extends Cap, Discount { }
 interface MFN extends Common { "Equity Financing Purchase Price Threshold": string }
 
-interface controlJSON { cap: boolean, discount: boolean }
+interface ControlJSON { cap: boolean, discount: boolean }
 
 enum Species { Cap, Discount, CapDiscount, MFN }
 
@@ -32,7 +33,7 @@ function nonzero(input: string): boolean {
     return (Number(input) > 0);
 }
 
-function read(file) {
+function read(file:string) {
     return fs.readFileSync(file).toString()
 }
 
@@ -50,15 +51,15 @@ function new_merge_prefer_first<O1,O2>(obj1:O1,obj2:O2) : O1 | O2 {
 }
 
 export function controller(userJSON: Common) {
-    let [controlJSON, guessedSpecies] = guessSpecies(userJSON);
-    let [validationError, validation_rv] = validate(guessedSpecies, controlJSON, userJSON); // should be either a Cap, Discount, CapDiscount, or MFN -- can typescript do that?
+    let [ControlJSON, guessedSpecies] = guessSpecies(userJSON);
+    let [validationError, validation_rv] = validate(guessedSpecies, ControlJSON, userJSON); // should be either a Cap, Discount, CapDiscount, or MFN -- can typescript do that?
     if (validationError) {
         console.log("VALIDATION ERROR: " + validation_rv);
     }
     else {
         // turn the cftemplate into a commonform
 
-        const mergedJSON = new_merge_prefer_first(userJSON,controlJSON);
+        const mergedJSON = new_merge_prefer_first(userJSON,ControlJSON);
 
         
 
@@ -66,14 +67,15 @@ export function controller(userJSON: Common) {
 
         cftemplate(read('SAFE.cftemplate'),
             ".",
-            mergedJSON);
+            mergedJSON,
+            () => console.error("some error!"));
 
         // render the commonform into output
     }
-}
+}    
 
-function guessSpecies(userJSON: Common): [controlJSON, Species] {
-    let controlJSON: controlJSON = {
+function guessSpecies(userJSON: Common): [ControlJSON, Species] {
+    let controlJSON: ControlJSON = {
         cap: false,
         discount: false
     };
@@ -94,7 +96,7 @@ function guessSpecies(userJSON: Common): [controlJSON, Species] {
     return [controlJSON, species]
 }
 
-function validate(species, controljson, userjson): [boolean, string] {
+function validate(species:Species, controljson:ControlJSON, userjson:Common): [boolean, string] {
     // does typescript approve of the JSON object?
     // or should we be using http://json-schema.org/
     return [false, "this is fine."];

@@ -5,14 +5,14 @@
         // might want to set this to ES6:
         "module": "commonjs",
         
-        // apparently this doesn't work anymore???
-        "outDir": "out", 
+        // this seems to work inconsistently
+        // "outDir": "out", 
 
-        "allowSyntheticDefaultImports": true,
+        // "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "target": "es5",
-        "lib": ["es6"],        
-        "allowJs" : true,
+        "lib": ["es6","es7"],
+        // "allowJs" : true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
@@ -24,6 +24,10 @@
         // "pretty": true,
         // "declarationDir": "out/dts",
     },
+
+    "files" : [
+        "SAFE.ts"
+    ],
 
     // just an optimization
     "exclude": [        
