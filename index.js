@@ -189,12 +189,25 @@ function cftemplate (
 
       // `(( unless payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('unless ')) {
-        key = directive.substring(7)
-        if (!context.hasOwnProperty(key) || !context[key]) {
-          stringify(token.content, context, handler, callback)
-        } else {
-          callback(null, '')
+        expression_text = directive.substring(3)
+        try {
+          expression = parseBooleanExpression(expression_text)          
+          value = evalParsedBooleanExpression(expression,context)
+          if(!value) 
+            stringify(token.content, context, handler, callback)
+          else 
+            callback(null,'')
         }
+        catch(e) {
+          console.log("\nError in the new boolean expressions code:", e)
+        }
+
+        // key = directive.substring(7)
+        // if (!context.hasOwnProperty(key) || !context[key]) {
+        //   stringify(token.content, context, handler, callback)
+        // } else {
+        //   callback(null, '')
+        // }
 
       // Invalid directive
       } else {
@@ -250,7 +263,7 @@ function parseBooleanExpression (text) {
 }
 
 function evalParsedBooleanExpression(lst,context) {
-  console.log("evaluating ", lst)
+  // console.log("evaluating ", lst)
   
   if( typeof lst === "string" ) {
     return !!context[lst]
