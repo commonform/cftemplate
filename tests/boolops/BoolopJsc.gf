@@ -9,7 +9,9 @@ concrete BoolopJsc of Boolop = open Prelude in {
     Alpha   = { s = "top" ; b = True  } ;
     Beta    = { s = "bot" ; b = False } ;
 
-    CFt x = x.s ++ " is (( if " ++ x.s ++ " begin ))" ++ (b2s x.b) ++ "(( end ))(( unless " ++ x.s ++ " begin ))wrong!((end))";
+    CFt x = case x.b of {
+      True => x.s ++ " is (( if " ++ x.s ++ " begin ))" ++ (b2s x.b) ++ "(( end ))(( unless " ++ x.s ++ " begin ))wrong!((end))";
+      False => x.s ++ " is (( unless " ++ x.s ++ " begin ))" ++ (b2s x.b) ++ "(( end ))(( if " ++ x.s ++ " begin ))wrong!((end))" };
 
     CFo x = x.s ++ " is " ++ (b2s x.b);
 
