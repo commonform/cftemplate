@@ -8,8 +8,7 @@ const glob = require('glob');
 const path = require('path');
 const stdio = require('stdio');
 
-interface Common {
-    [index:string]:string;
+interface Common {    
     "Change of Control Voting Block Threshold": string, // percentage string, ends with %
     "Company Legal Form": string,
     "Company Name": string,
@@ -82,11 +81,11 @@ function guessSpecies(userJSON: Common): [ControlJSON, Species] {
     let species: Species;
 
     if (userJSON.hasOwnProperty("Discount Rate")
-        && undefined != userJSON["Discount Rate"]
-        && nonzero(userJSON["Discount Rate"])) { controlJSON.discount = true }
+        && undefined != (userJSON as Discount)["Discount Rate"]
+        && nonzero((userJSON as Discount)["Discount Rate"])) { controlJSON.discount = true }
     if (userJSON.hasOwnProperty("Valuation Cap")
-        && undefined != userJSON["Valuation Cap"]
-        && nonzero(userJSON["Valuation Cap"])) { controlJSON.cap = true }
+        && undefined != (userJSON as Cap)["Valuation Cap"]
+        && nonzero((userJSON as Cap)["Valuation Cap"])) { controlJSON.cap = true }
 
     if (controlJSON.discount && controlJSON.cap) { species = Species.CapDiscount }
     else if (controlJSON.discount) { species = Species.Discount }
