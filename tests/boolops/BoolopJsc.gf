@@ -1,4 +1,4 @@
-incomplete concrete BoolopI of Boolop = open Prelude, LexBoolop in {
+concrete BoolopJsc of Boolop = open Prelude in {
   lincat
     Exp = { s : Str ; b : Bool };
     CFtest, CFout = Str;
@@ -9,7 +9,9 @@ incomplete concrete BoolopI of Boolop = open Prelude, LexBoolop in {
     Alpha   = { s = "top" ; b = True  } ;
     Beta    = { s = "bot" ; b = False } ;
 
-    CF = CFtemplate;
+    CFt x = x.s ++ " is (( if " ++ x.s ++ " begin ))" ++ (b2s x.b) ++ "(( end ))(( unless " ++ x.s ++ " begin ))wrong!((end))";
+
+    CFo x = x.s ++ " is " ++ (b2s x.b);
 
   oper
     b2s : Bool -> Str;
