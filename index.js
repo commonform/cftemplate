@@ -189,7 +189,7 @@ function cftemplate (
 
       // `(( unless payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('unless ')) {
-        expression_text = directive.substring(3)
+        expression_text = directive.substring(7)
         try {
           expression = parseBooleanExpression(expression_text)          
           value = evalParsedBooleanExpression(expression,context)
@@ -277,7 +277,7 @@ function evalParsedBooleanExpression(lst,context) {
     }
   }
   if( lst.length === 2 ) {
-    console.assert(lst[0] === "not")
+    console.assert(lst[0] === "not", lst)
     return !evalParsedBooleanExpression(lst[1],context)
   }
   if( lst.length >= 3 ) {
