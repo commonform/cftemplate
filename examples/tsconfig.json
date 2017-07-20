@@ -1,24 +1,28 @@
 {
     "compilerOptions": {
+        // might need this:
+        "moduleResolution" : "Node",
+        // might want to set this to ES6:
+        "module": "commonjs",
+        
+        // apparently this doesn't work anymore???
+        "outDir": "out" 
+
+        "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "target": "es5",
-        "lib": ["es6"],
-        "module": "commonjs",
+        "lib": ["es6"],        
         "allowJs" : true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
-        "removeComments": true,
-        "allowSyntheticDefaultImports": true,
-//        "pretty": true,
-//        "declarationDir": "out/dts",
+        "strictNullChecks": true,
 
-        "strictNullChecks": true, 
-
-        // apparetly this doesn't work anymore???
-        "outDir": "out/js" 
+        "listEmittedFiles": true
         
-        
+        // "removeComments": true,        
+        // "pretty": true,
+        // "declarationDir": "out/dts",
     },
 
     // just an optimization
