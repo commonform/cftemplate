@@ -27,12 +27,12 @@
  */
 export = cftemplate;
 
-declare function cftemplate (
-  template : string, // String of template content to process.
-  base : string, // Directory to search for required files.
-  context : any, // Key-value object holding template variable values.
-  callback : () => void // for errors???? takes SOME argument. see index.js
-) : void
+declare function cftemplate(
+    template: string, // String of template content to process.
+    base: string, // Directory to search for required files.
+    context: any, // Key-value object holding template variable values.
+    callback: (x: any, y: any) => void // for errors???? takes SOME argument. see index.js
+): void
 
 /*~ This example shows how to have multiple overloads for your function */
 // declare function MyFunction(name: string): MyFunction.NamedReturnType;
