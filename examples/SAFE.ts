@@ -2,11 +2,14 @@
 
 // http://choly.ca/post/typescript-json/ may be relevant one day
 
-const cftemplate = require('../index.js');
-const fs = require('fs');
-const glob = require('glob');
-const path = require('path');
+import cftemplate = require('../index.js');
+import fs = require('fs');
+// import glob = require('glob');
+// import path = require('path');
+// apparently this form makes tsc not complain about missing type declaration files
 const stdio = require('stdio');
+
+// import {cftemplate} from "../index.js";
 
 interface Common {    
     "Change of Control Voting Block Threshold": string, // percentage string, ends with %
@@ -23,7 +26,7 @@ interface Common {
 
 interface Cap extends Common { "Valuation Cap": string }
 interface Discount extends Common { "Discount Rate": string }
-interface CapDiscount extends Cap, Discount { }
+type CapDiscount = Cap | Discount
 interface MFN extends Common { "Equity Financing Purchase Price Threshold": string }
 
 interface ControlJSON { cap: boolean, discount: boolean }
@@ -69,7 +72,8 @@ export function controller(userJSON: Common) {
         cftemplate(read('SAFE.cftemplate'),
             ".",
             mergedJSON,
-            () => console.error("some error!"));
+            () => console.error("some error!")
+        );
 
         // render the commonform into output
     }
@@ -114,6 +118,6 @@ function validate(species:Species, controljson:ControlJSON, userjson:Common): [b
 let opt = stdio.getopt();
 console.log("moo");
 
-let userjson = read("SAFE.user.json");
+let userjson = JSON.parse(read("SAFE.user.json")) as Common;
 
 controller(userjson);
