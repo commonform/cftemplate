@@ -52,7 +52,9 @@ function new_merge_prefer_first<O1, O2>(obj1: O1, obj2: O2): O1 | O2 {
     return rv;
 }
 
-export function controller(cfTemplateFile: string, userJSON: Common) {
+export function controller(cfTemplateFile: string, userJsonFile: string) {
+
+    let userJSON = JSON.parse(read(userJsonFile));
     let [ControlJSON, guessedSpecies] = guessSpecies(userJSON);
     //    console.error("guessed controlJSON: " + JSON.stringify(ControlJSON));
     //    console.error("guessed species: " + Species[guessedSpecies]);
@@ -92,15 +94,13 @@ export function controller(cfTemplateFile: string, userJSON: Common) {
                     // render the commonform into output
                     //                    console.error("cftemplate turned " + cftemplateInput.length + " bytes of input into " + cftemplateOutput.length + " bytes of output.");
 
-                    let opt = { "--blank-text": null, "--blanks": null, "--color": false, "--edition": null, "--format": "terminal", "--hash": false, "--help": false, "--indent-margins": false, "--left-align-title": false, "--mark-filled": false, "--number": "decimal", "--ordered-lists": false, "--signatures": null, "--title": null, "--usage": false, "--version": false, "-h": false, "-v": false, "<": false, "EDITION": null, "PROJECT": null, "blanks": false, "critique": false, "definitions": false, "directions": false, "hash": false, "headings": false, "lint": false, "publish": false, "references": false, "render": true, "uses": false, blanksObj: mergedJSON }
+                    let opt = { "--blank-text": null, "--blanks": userJsonFile, "--color": false, "--edition": null, "--format": "terminal", "--hash": false, "--help": false, "--indent-margins": false, "--left-align-title": false, "--mark-filled": false, "--number": "decimal", "--ordered-lists": false, "--signatures": null, "--title": null, "--usage": false, "--version": false, "-h": false, "-v": false, "<": false, "EDITION": null, "PROJECT": null, "blanks": false, "critique": false, "definitions": false, "directions": false, "hash": false, "headings": false, "lint": false, "publish": false, "references": false, "render": true, "uses": false }
 
                     let format = "terminal";
 
-                    const stream = require('stream');
                     const fakeStdin = require('fs').createReadStream(cfoutfile)
                     const fakeStdout = process.stdout;
                     const fakeStderr = process.stderr;
-
                     // maybe i should just use https://www.npmjs.com/package/mock-cli
 
                     const route = require('commonform-cli/source/route.js');
@@ -157,6 +157,6 @@ let opt = stdio.getopt();
 
 let [cftemplateFile, userJsonFile] = opt.args;
 
-controller(cftemplateFile, JSON.parse(read(userJsonFile)));
+controller(cftemplateFile, userJsonFile); // pass the userJsonFile into the controller and pass it along into the renderer with a blanks/blanksPath argument so we don't need to hack the commonform-cli with a blanksObj specialcase.
 
 

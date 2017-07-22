@@ -6,7 +6,7 @@
   "bin": "cftemplate",
   "dependencies": {
     "async.detectseries": "^0.5.2",
-    "commonform-cli": "file:../commonform-cli",
+    "commonform-cli": "^0.27.0",
     "commonform-get-form": "^1.0.0",
     "commonform-get-publication": "^1.0.1",
     "commonform-markup-parse": "^0.4.0",
