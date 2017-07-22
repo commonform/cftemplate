@@ -112,7 +112,7 @@ export function controller(cfTemplateFile: string, userJSON: Common) {
                     }
                 }
             }
-        );
+        )
     }
 }
 
