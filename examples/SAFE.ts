@@ -116,10 +116,6 @@ export function controller(cfTemplateFile: string, userJSON: Common) {
     }
 }
 
-function fillcommonform(commonform, jsoncontext) {
-
-}
-
 
 function guessSpecies(userJSON: Common): [ControlJSON, Species] {
     let controlJSON: ControlJSON = {
