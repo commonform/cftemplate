@@ -26,9 +26,25 @@ cftemplate form.cftemplate variables.json > form.cform
 
 - `(( unless x begin ))more markup(( end ))` includes `more markup` only if there isn't any `x` template variable or its value is falsey.
 
-# but wait, there's more business logic
+## About Conditional Logic
 
-Maybe you subscribe to the Model-View-Controller school of thought. Maybe the View changes, based on the business logic, which ground to the data model. In other words, you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off. The propositions in those `if/unless` conditions may be determined by business rules operating against the values in your `variables.json`.
+The syntax for `if x begin` allows the Boolean operators `and`, `or`, `not`, but there are two rules:
+- you MUST parenthesize every application of those operators.
+- you MUST leave spaces around the parentheses.
+
+So: `(( if ( ( foo and bar ) or ( not baz ) ) begin ))` is OK.
+
+You can't do bare `foo or bar and baz` conjunctions because we haven't implemented precedence yet.
+
+You can't do `(( if ( foo and ( bar )) begin ))` because the parser isn't smart enough to distinguish the first `))` from the second.
+
+See `tests/boolops/input.cftemplate` for comprehensive examples.
+
+## About Business Logic
+
+Maybe you subscribe to the Model-View-Controller school of thought. Maybe the View changes, based on the business logic, which ground to the data model.
+
+In other words, maybe you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off, and you want the propositions in those `if/unless` conditions may be determined by business rules operating against the values in your `variables.json`.
 
 With a third, optional, argument,
 
@@ -46,4 +62,4 @@ If no `logic.js` is provided your control parameters will have to be present in 
 
 The business logic is up to you. If you want you can write TypeScript or whatever as long as it provides the right interface.
 
-
+See `examples/id.js` for an example of a pass-through "identity" function.
