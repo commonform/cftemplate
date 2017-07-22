@@ -161,24 +161,56 @@ function cftemplate (
 
       // `(( if payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('if ')) {
-        key = directive.substring(3)
+        expression_text = directive.substring(3)
+
+        // first check if it's just a variable. this is just an optimization
+        // over going straight to the else block.
         if (context.hasOwnProperty(key)) {
-          if (!context[key]) {
+          if (!context[key]) {        
             callback(null, '')
           } else {
             stringify(token.content, context, handler, callback)
-          }
-        } else {
-          callback(null, '')
+          }          
         }
-
+        else {
+          try {
+            expression = parseBooleanExpression(expression_text)          
+            value = evalParsedBooleanExpression(expression,context)
+            if(value) 
+              stringify(token.content, context, handler, callback)          
+            else 
+              callback(null,'')
+          }
+          catch(e) {
+            console.log("\nError in the new boolean expressions code:", e)
+          }
+        }
+        
       // `(( unless payingInCash begin )) conditional text (( end ))`
       } else if (directive.startsWith('unless ')) {
-        key = directive.substring(7)
-        if (!context.hasOwnProperty(key) || !context[key]) {
-          stringify(token.content, context, handler, callback)
-        } else {
-          callback(null, '')
+        expression_text = directive.substring(7)
+
+        // first check if it's a present but falsey variable. this is just an optimization
+        // over going straight to the else block.
+        if (context.hasOwnProperty(key)) {
+          if (!context[key]) {        
+            stringify(token.content, context, handler, callback)            
+          } else {
+            callback(null, '')
+          }          
+        }
+        else {
+          try {
+            expression = parseBooleanExpression(expression_text)          
+            value = evalParsedBooleanExpression(expression,context)
+            if(!value) 
+              stringify(token.content, context, handler, callback)
+            else 
+              callback(null,'')
+          }
+          catch(e) {
+            console.log("\nError in the new boolean expressions code:", e)
+          }
         }
 
       // Invalid directive
@@ -200,4 +232,80 @@ function cftemplate (
 
 function formToMarkup (form) {
   return stringifyForm(form).replace(/^\n\n/, '')
+}
+
+function parseBooleanExpression (text) {
+  var sexp = [[]]
+  var word = ''  
+  var temp;
+  for( char of text ) {
+      if( char === '(' )
+          sexp.push([])
+      else if( char === ')' ) {
+          if( word ) {
+              sexp[sexp.length-1].push(word)
+              word = ''
+          }
+          temp = sexp.pop()
+          sexp[sexp.length-1].push(temp)
+      }
+      else if( char === ' ' || char === '\t' || char === '\n' ) {
+          if(word) {
+              sexp[sexp.length-1].push(word)
+              word = ''
+          }
+      }      
+      else
+          word += char
+  }
+  if(word) {
+    sexp[sexp.length-1].push(word)
+    word = ''
+  }
+  
+  return sexp[0]
+}
+
+function evalParsedBooleanExpression(lst,context) {
+  // console.log("evaluating ", lst)
+  
+  if( typeof lst === "string" ) {
+    return !!context[lst]
+  }
+  if( lst.length === 1 ) {
+    if( typeof lst[0] === "string" )
+      return !!context[lst[0]]
+    else {
+      // something like ((a + b)). strip the redundant parentheses.
+      return evalParsedBooleanExpression(lst[0],context)
+    }
+  }
+  if( lst.length === 2 ) {
+    console.assert(lst[0] === "not", lst)
+    return !evalParsedBooleanExpression(lst[1],context)
+  }
+  if( lst.length >= 3 ) {
+    var op = lst[1]
+    var args = []
+    for(var i=3; i<lst.length; i += 2) {
+      // check that they didn't write e.g. (a and b or c)
+      console.assert(lst[i] === op, lst[i] + "!=" + op ) 
+    }
+    for(var i=0; i<lst.length; i += 2) {
+      args.push(lst[i])
+    }
+    var results = args.map( function(x) {  return evalParsedBooleanExpression(x,context) })
+    switch(op) {
+      case "and":
+        return results.every( function(x) { return !!x; });
+        break;
+      case "or":
+        return results.some( function(x) { return !!x; });
+        break;  
+      default:
+        console.assert(false);  
+    }
+  }
+
+  console.assert(false)
 }

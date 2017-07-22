@@ -1,0 +1,66 @@
+20170720-17:25:43 mengwong@venice2:~/non-db-src/commonform/commonform-samples% for i in SAFE-*.commonform; do echo $i:; commonform blanks $i ; echo ""; done | pbcopy
+
+SAFE-MFN.commonform:
+Change of Control Voting Block Threshold
+Company Legal Form
+Company Name
+Equity Financing Purchase Price Threshold
+Governing Law Jurisdiction
+Investor Name
+Purchase Amount
+Purchase Date
+Time Notice is Effective after Deposit in the Mail
+
+SAFE-cap-discount.commonform:
+Change of Control Voting Block Threshold
+Company Legal Form
+Company Name
+Discount Rate
+Governing Law Jurisdiction
+Investor Name
+Purchase Amount
+Purchase Date
+Time Notice is Effective after Deposit in the Mail
+Valuation Cap
+
+SAFE-cap.commonform:
+Change of Control Voting Block Threshold
+Company Legal Form
+Company Name
+Governing Law Jurisdiction
+Investor Name
+Purchase Amount
+Purchase Date
+Time Notice is Effective after Deposit in the Mail
+Valuation Cap
+
+SAFE-discount.commonform:
+Change of Control Voting Block Threshold
+Company Legal Form
+Company Name
+Discount Rate
+Governing Law Jurisdiction
+Investor Name
+Liquidity Price Numerator
+Purchase Amount
+Purchase Date
+Time Notice is Effective after Deposit in the Mail
+
+
+| No | Blank                                              | MFN | cap | cap-discount | discount |
+|----+----------------------------------------------------+-----+-----+--------------+----------|
+|  4 | Change of Control Voting Block Threshold           |   1 |   1 |            1 |        1 |
+|  4 | Company Legal Form                                 |   1 |   1 |            1 |        1 |
+|  4 | Company Name                                       |   1 |   1 |            1 |        1 |
+|  2 | Discount Rate                                      |     |     |            1 |        1 |
+|  1 | Equity Financing Purchase Price Threshold          |   1 |     |              |          |
+|  4 | Governing Law Jurisdiction                         |   1 |   1 |            1 |        1 |
+|  4 | Investor Name                                      |   1 |   1 |            1 |        1 |
+|  1 | Liquidity Price Numerator                          |     |     |              |        1 |
+|  4 | Purchase Amount                                    |   1 |   1 |            1 |        1 |
+|  4 | Purchase Date                                      |   1 |   1 |            1 |        1 |
+|  4 | Time Notice is Effective after Deposit in the Mail |   1 |   1 |            1 |        1 |
+|  2 | Valuation Cap                                      |     |   1 |            1 |          |
+
+
+
