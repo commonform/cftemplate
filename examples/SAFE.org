@@ -49,18 +49,18 @@ Time Notice is Effective after Deposit in the Mail
 
 | No | Blank                                              | MFN | cap | cap-discount | discount |
 |----+----------------------------------------------------+-----+-----+--------------+----------|
-|  4 | Change of Control Voting Block Threshold           |   1 |   1 |            1 |        1 |
-|  4 | Company Legal Form                                 |   1 |   1 |            1 |        1 |
 |  4 | Company Name                                       |   1 |   1 |            1 |        1 |
-|  2 | Discount Rate                                      |     |     |            1 |        1 |
-|  1 | Equity Financing Purchase Price Threshold          |   1 |     |              |          |
+|  4 | Company Legal Form                                 |   1 |   1 |            1 |        1 |
 |  4 | Governing Law Jurisdiction                         |   1 |   1 |            1 |        1 |
 |  4 | Investor Name                                      |   1 |   1 |            1 |        1 |
-|  1 | Liquidity Price Numerator                          |     |     |              |        1 |
 |  4 | Purchase Amount                                    |   1 |   1 |            1 |        1 |
 |  4 | Purchase Date                                      |   1 |   1 |            1 |        1 |
+|  4 | Change of Control Voting Block Threshold           |   1 |   1 |            1 |        1 |
 |  4 | Time Notice is Effective after Deposit in the Mail |   1 |   1 |            1 |        1 |
 |  2 | Valuation Cap                                      |     |   1 |            1 |          |
+|  2 | Discount Rate                                      |     |     |            1 |        1 |
+|  1 | Liquidity Price Numerator                          |     |     |              |        1 |
+|  1 | Equity Financing Purchase Price Threshold          |   1 |     |              |          |
 
 
 

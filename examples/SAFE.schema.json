@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "SAFE schema, covers all four cases",
+  "type": "object",
+  "properties": {
+    "Company Name": { "type": "string" },
+    "Company Legal Form": { "type": "string" },
+    "Governing Law Jurisdiction": { "type": "string" },
+    "Investor Name": { "type": "string" },
+    "Purchase Amount": { "type": "string" },
+    "Purchase Date": { "type": "string" },
+    "Change of Control Voting Block Threshold": { "$ref": "#/definitions/bounded_percent" },
+    "Time Notice is Effective after Deposit in the Mail": { "type": "string" },
+    "Valuation Cap": { "type": "string" },
+    "Discount Rate": { "$ref": "#/definitions/bounded_percent" },
+    "Equity Financing Purchase Price Threshold": { "$ref": "#/definitions/bounded_percent" }
+  },
+
+  "required": [
+    "Company Name",
+    "Company Legal Form",
+    "Governing Law Jurisdiction",
+    "Investor Name",
+    "Purchase Amount",
+    "Purchase Date",
+    "Change of Control Voting Block Threshold",
+    "Time Notice is Effective after Deposit in the Mail"
+  ],
+  
+  "dependencies": {
+    "Discount Rate": ["Liquidity Price Numerator"]
+  },
+
+  "definitions": {
+    "percent_string": {
+      "type": "string",
+      "pattern": "%$"
+    },
+    "bounded0_100number": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false
+    },
+    "bounded0_100prefix": {
+      "type": "string",
+      "pattern": "^(100(\\.0+)?|[0-9]{1,2}(\\.[0-9]+)?)($|[^[0-9.])"
+    },
+    "bounded0_100": {
+      "anyOf": [
+        { "$ref": "#/definitions/bounded0_100number" },
+        { "allOf": [ { "$ref": "#/definitions/bounded0_100prefix" },
+                     { "$ref": "#/definitions/percent_string" } ] }
+      ]
+    },
+    "bounded_percent": {
+      "allOf": [ { "$ref": "#/definitions/bounded0_100prefix" },
+                 { "$ref": "#/definitions/percent_string" } ]
+    }
+  }
+}
