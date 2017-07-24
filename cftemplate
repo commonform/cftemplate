@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var argv = process.argv
 if (argv.length < 3 || argv.length > 5) {
-  process.stderr.write('Usage: cftemplate <input.cftemplate> [context.json] [logic.js]\n')
+  process.stderr.write('Usage: cftemplate <input.cftemplate> [context.json [logic.js]]\n')
   process.exit(1)
 } else {
   var cftemplate = require('./')
