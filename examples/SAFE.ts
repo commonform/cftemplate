@@ -9,11 +9,12 @@ export = function(inputJSON: Common) {
         throw ("VALIDATION ERROR: " + validation_rv);
     }
     else {
+        // console.error("SAFE.js: decided controlJSON = " + JSON.stringify(ControlJSON));
         return myAssign(ControlJSON, inputJSON);
     }
 }
 
-
+// it would be nice to get the type definitons out of SAFE.scheme.json
 interface Common {
     "Change of Control Voting Block Threshold": string, // percentage string, ends with %
     "Company Legal Form": string,
@@ -28,7 +29,10 @@ interface Common {
 }
 
 interface Cap extends Common { "Valuation Cap": string }
-interface Discount extends Common { "Discount Rate": string }
+interface Discount extends Common {
+    "Discount Rate": string,
+    "Liquidity Price Numerator": string
+}
 type CapDiscount = Cap | Discount
 interface MFN extends Common { "Equity Financing Purchase Price Threshold": string }
 
@@ -75,6 +79,8 @@ function guessSpecies(userJSON: Common): [ControlJSON, Species] {
     if (controlJSON.Discount && controlJSON.Cap) {
         species = Species.CapDiscount
         controlJSON.CapDiscount = true
+        controlJSON.Discount = false
+        controlJSON.Cap = false
     }
     else if (controlJSON.Discount) { species = Species.Discount }
     else if (controlJSON.Cap) { species = Species.Cap }

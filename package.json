@@ -14,7 +14,8 @@
     "is-sha-256-hex-digest": "^1.0.0",
     "json-parse-errback": "^2.0.0",
     "plaintemplate": "^1.0.1",
-    "stdio": "^0.2.7"
+    "stdio": "^0.2.7",
+    "typescript": "^2.4.2"
   },
   "devDependencies": {
     "@types/node": "^8.0.14",

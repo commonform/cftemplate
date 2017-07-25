@@ -26,8 +26,9 @@ if (argv.length < 3 || argv.length > 5) {
     }
   }
   if (logicFile) {
-    try { var businessLogic = require("./" + logicFile) }
-    catch (error) { process.stderr.write('Could not read ' + logicFile + '.\n')
+    try { var businessLogic = require(process.env.PWD + "/" + logicFile) }
+    catch (error) { process.stderr.write('Could not read ' + logicFile +
+                                         ': ' + error + '\n')
                     process.exit(1) }
     try { context = businessLogic(context) }
     catch (error) { process.stderr.write('Business logic in ' + logicFile +

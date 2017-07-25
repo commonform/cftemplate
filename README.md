@@ -42,9 +42,9 @@ See `tests/boolops/input.cftemplate` for comprehensive examples.
 
 ## About Business Logic
 
-Maybe you subscribe to the Model-View-Controller school of thought. Maybe the View changes, based on the business logic, which ground to the data model.
+Maybe you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off, and you want the propositions in those `if/unless` conditions may be determined by business rules operating against the values in your `variables.json`.
 
-In other words, maybe you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off, and you want the propositions in those `if/unless` conditions may be determined by business rules operating against the values in your `variables.json`.
+For example, you might have `(( if (extendedAppendix and (not skipAllExtensions) ) begin ))`. These keys might not exist in the user-supplied context JSON, but could be computed by applying rules to values in the context. Those rules are called business logic.
 
 With a third, optional, argument,
 
@@ -63,3 +63,4 @@ If no `logic.js` is provided your control parameters will have to be present in 
 The business logic is up to you. If you want you can write TypeScript or whatever as long as it provides the right interface.
 
 See `examples/id.js` for an example of a pass-through "identity" function.
+
