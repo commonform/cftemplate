@@ -7,7 +7,9 @@ npm install --global cftemplate
 # Use
 
 ```shell
-cftemplate form.cftemplate variables.json > form.cform
+cftemplate form.cftemplate                         > form.cform
+cftemplate form.cftemplate variables.json          > form.cform
+cftemplate form.cftemplate variables.json logic.js > form.cform
 ```
 
 # Template Directives
