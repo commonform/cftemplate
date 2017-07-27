@@ -1,0 +1,45 @@
+// REFERENCES 
+// https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+// https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
+{
+    "compilerOptions": {        
+        // "moduleResolution" : "Node", // I think this is default, so not doing anything        
+        "module": "commonjs", // node.js module format. Might want this to be 'ES6' (which node.js is probably compatible with by now)                
+        "target": "es5",
+        "lib": ["es6","es7"],                
+        "allowJs" : true, 
+        // "outDir": "out", // UGH I can't get this  to work consistently
+
+        // ignore these for now
+        // "allowSyntheticDefaultImports": true,     
+        // "checkJs" : true,   
+        
+        // type/syntax checking
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "strictNullChecks": true,
+
+        // personal preference stuff
+        // see "Configuration inheritance with extends" in tsconfig ref listed above if you want to use your own values of these.
+        "pretty": true                
+        ,"listEmittedFiles": true
+        ,"types" : ["node"] // DW DEBUGGING        
+        ,"diagnostics": true // DW DEBUGGING
+        ,"extendedDiagnostics": true // DW DEBUGGING                
+        // "removeComments": true,
+        ,"sourceMap": false
+    },
+
+    "files" : [
+        "index.d.ts", // I think tsc will find this automatically
+        "examples/SAFE.ts"
+    ]
+
+    // don't think this is doing anything
+    ,"exclude": [      
+        "*.js",  
+        "node_modules"        
+    ]
+}

@@ -1,0 +1,8 @@
+(( if maturity_date begin )) 
+	\\ Maturity. If, by [maturity_date] (the ""Maturity Date""), this instrument has not otherwise terminated, then the Investor shall have the option to ((
+	 if iHaveCap begin ))either (a) receive from the Company in lieu of payment a number of shares of Common Stock equal to the Purchase Amount divided by the ""Maturity Price Per Share"", that being the Valuation Cap 
+		(( if orig_discount begin ))multiplied [hundred_minus_discount]%(( end 
+		))divided by the Company Capitalization; or (b)(( end 
+	)) receive repayment in full by [repayment_date] (the ""Repayment Date"").
+(( end ))
+

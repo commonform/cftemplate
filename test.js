@@ -34,7 +34,7 @@ glob('tests/*', function (error, results) {
           JSON.parse(read('context.json')),
           function (error, result) {
             test.error(error)
-            test.equal(result, read('output.cform'))
+            test.equal(squash(result), squash(read('output.cform')))
             test.end()
           }
         )
@@ -42,3 +42,10 @@ glob('tests/*', function (error, results) {
     })
   }
 })
+
+function squash (str) {
+  return str
+    .replace(/  +/g, " ")
+    .replace(/ +$/gm,"");
+}
+

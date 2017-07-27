@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "SAFE schema, covers all four cases",
+  "type": "object",
+  "properties": {
+    "Company Name": {
+      "type": "string", "description": "Full name of the company" },
+    "Company Legal Form": {
+      "type": "string", "description": "State and organization type", "default": "Delaware S-Corporation" },
+    "Governing Law Jurisdiction": {
+      "type": "string", "description": "State, e.g. Delaware", "default": "Delaware" },
+    "Investor Name": {
+      "type": "string", "description": "Investor's full name", "default": "Alice Aristocrat" },
+    "Purchase Amount": {
+      "type": "string", "description": "how much is the investor putting in?" },
+    "Purchase Date": {
+      "type": "string", "description": "date" },
+    "Change of Control Voting Block Threshold": {
+      "$ref": "#/definitions/bounded_percent", "description": "what percentage of the company has to change hands to be considered a Change of Control?", "default": "80%" },
+    "Time Notice is Effective after Deposit in the Mail": {
+      "type": "string", "description": "what is typical delivery time for mail?", "default": "3 days" },
+    "Valuation Cap": {
+      "type": "string", "description": "valuation cap" },
+    "Discount Rate": {
+      "$ref": "#/definitions/bounded_percent", "description": "usually 10% to 30%" },
+    "Equity Financing Purchase Price Threshold": {
+      "$ref": "#/definitions/bounded_percent", "description": "How much money do you have to raise for it to count as a next-round equity financing? Usually one or two million." },
+    "Liquidity Price Numerator": {
+      "type": "string", "description": "effective valuation cap in the event of a quick flip" }
+  },
+
+  "required": [
+    "Company Name",
+    "Company Legal Form",
+    "Governing Law Jurisdiction",
+    "Investor Name",
+    "Purchase Amount",
+    "Purchase Date",
+    "Change of Control Voting Block Threshold",
+    "Time Notice is Effective after Deposit in the Mail"
+  ],
+
+  "description": "there is no way to express that Liquidity Price Numerator is a dependency only in a situation where there a Discount Rate but not also a Valuation Cap",
+  "dependencies": {
+    "- Discount Rate": ["Liquidity Price Numerator"]
+  },
+
+  "definitions": {
+    "percent_string": {
+      "type": "string",
+      "pattern": "%$"
+    },
+    "bounded0_100number": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "exclusiveMinimum": false,
+      "exclusiveMaximum": false
+    },
+    "bounded0_100prefix": {
+      "type": "string",
+      "pattern": "^(100(\\.0+)?|[0-9]{1,2}(\\.[0-9]+)?)($|[^[0-9.])"
+    },
+    "bounded0_100": {
+      "anyOf": [
+        { "$ref": "#/definitions/bounded0_100number" },
+        { "allOf": [ { "$ref": "#/definitions/bounded0_100prefix" },
+                     { "$ref": "#/definitions/percent_string" } ] }
+      ]
+    },
+    "bounded_percent": {
+      "allOf": [ { "$ref": "#/definitions/bounded0_100prefix" },
+                 { "$ref": "#/definitions/percent_string" } ]
+    }
+  }
+}

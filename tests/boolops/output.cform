@@ -1,0 +1,302 @@
+top is True
+( top and top ) is True
+( top and ( top and top ) ) is True
+( top and ( top and bot ) ) is False
+( top and ( bot and top ) ) is False
+( top and ( bot and bot ) ) is False
+( top and bot ) is False
+( top and ( not top ) ) is False
+( top and ( not bot ) ) is True
+( top and ( top or top ) ) is True
+( top and ( top or bot ) ) is True
+( top and ( bot or top ) ) is True
+( top and ( bot or bot ) ) is False
+( ( top and top ) and top ) is True
+( ( top and top ) and ( top and top ) ) is True
+( ( top and top ) and ( top and bot ) ) is False
+( ( top and top ) and ( bot and top ) ) is False
+( ( top and top ) and ( bot and bot ) ) is False
+( ( top and top ) and bot ) is False
+( ( top and top ) and ( not top ) ) is False
+( ( top and top ) and ( not bot ) ) is True
+( ( top and top ) and ( top or top ) ) is True
+( ( top and top ) and ( top or bot ) ) is True
+( ( top and top ) and ( bot or top ) ) is True
+( ( top and top ) and ( bot or bot ) ) is False
+( ( top and bot ) and top ) is False
+( ( top and bot ) and ( top and top ) ) is False
+( ( top and bot ) and ( top and bot ) ) is False
+( ( top and bot ) and ( bot and top ) ) is False
+( ( top and bot ) and ( bot and bot ) ) is False
+( ( top and bot ) and bot ) is False
+( ( top and bot ) and ( not top ) ) is False
+( ( top and bot ) and ( not bot ) ) is False
+( ( top and bot ) and ( top or top ) ) is False
+( ( top and bot ) and ( top or bot ) ) is False
+( ( top and bot ) and ( bot or top ) ) is False
+( ( top and bot ) and ( bot or bot ) ) is False
+( ( bot and top ) and top ) is False
+( ( bot and top ) and ( top and top ) ) is False
+( ( bot and top ) and ( top and bot ) ) is False
+( ( bot and top ) and ( bot and top ) ) is False
+( ( bot and top ) and ( bot and bot ) ) is False
+( ( bot and top ) and bot ) is False
+( ( bot and top ) and ( not top ) ) is False
+( ( bot and top ) and ( not bot ) ) is False
+( ( bot and top ) and ( top or top ) ) is False
+( ( bot and top ) and ( top or bot ) ) is False
+( ( bot and top ) and ( bot or top ) ) is False
+( ( bot and top ) and ( bot or bot ) ) is False
+( ( bot and bot ) and top ) is False
+( ( bot and bot ) and ( top and top ) ) is False
+( ( bot and bot ) and ( top and bot ) ) is False
+( ( bot and bot ) and ( bot and top ) ) is False
+( ( bot and bot ) and ( bot and bot ) ) is False
+( ( bot and bot ) and bot ) is False
+( ( bot and bot ) and ( not top ) ) is False
+( ( bot and bot ) and ( not bot ) ) is False
+( ( bot and bot ) and ( top or top ) ) is False
+( ( bot and bot ) and ( top or bot ) ) is False
+( ( bot and bot ) and ( bot or top ) ) is False
+( ( bot and bot ) and ( bot or bot ) ) is False
+( bot and top ) is False
+( bot and ( top and top ) ) is False
+( bot and ( top and bot ) ) is False
+( bot and ( bot and top ) ) is False
+( bot and ( bot and bot ) ) is False
+( bot and bot ) is False
+( bot and ( not top ) ) is False
+( bot and ( not bot ) ) is False
+( bot and ( top or top ) ) is False
+( bot and ( top or bot ) ) is False
+( bot and ( bot or top ) ) is False
+( bot and ( bot or bot ) ) is False
+( ( not top ) and top ) is False
+( ( not top ) and ( top and top ) ) is False
+( ( not top ) and ( top and bot ) ) is False
+( ( not top ) and ( bot and top ) ) is False
+( ( not top ) and ( bot and bot ) ) is False
+( ( not top ) and bot ) is False
+( ( not top ) and ( not top ) ) is False
+( ( not top ) and ( not bot ) ) is False
+( ( not top ) and ( top or top ) ) is False
+( ( not top ) and ( top or bot ) ) is False
+( ( not top ) and ( bot or top ) ) is False
+( ( not top ) and ( bot or bot ) ) is False
+( ( not bot ) and top ) is True
+( ( not bot ) and ( top and top ) ) is True
+( ( not bot ) and ( top and bot ) ) is False
+( ( not bot ) and ( bot and top ) ) is False
+( ( not bot ) and ( bot and bot ) ) is False
+( ( not bot ) and bot ) is False
+( ( not bot ) and ( not top ) ) is False
+( ( not bot ) and ( not bot ) ) is True
+( ( not bot ) and ( top or top ) ) is True
+( ( not bot ) and ( top or bot ) ) is True
+( ( not bot ) and ( bot or top ) ) is True
+( ( not bot ) and ( bot or bot ) ) is False
+( ( top or top ) and top ) is True
+( ( top or top ) and ( top and top ) ) is True
+( ( top or top ) and ( top and bot ) ) is False
+( ( top or top ) and ( bot and top ) ) is False
+( ( top or top ) and ( bot and bot ) ) is False
+( ( top or top ) and bot ) is False
+( ( top or top ) and ( not top ) ) is False
+( ( top or top ) and ( not bot ) ) is True
+( ( top or top ) and ( top or top ) ) is True
+( ( top or top ) and ( top or bot ) ) is True
+( ( top or top ) and ( bot or top ) ) is True
+( ( top or top ) and ( bot or bot ) ) is False
+( ( top or bot ) and top ) is True
+( ( top or bot ) and ( top and top ) ) is True
+( ( top or bot ) and ( top and bot ) ) is False
+( ( top or bot ) and ( bot and top ) ) is False
+( ( top or bot ) and ( bot and bot ) ) is False
+( ( top or bot ) and bot ) is False
+( ( top or bot ) and ( not top ) ) is False
+( ( top or bot ) and ( not bot ) ) is True
+( ( top or bot ) and ( top or top ) ) is True
+( ( top or bot ) and ( top or bot ) ) is True
+( ( top or bot ) and ( bot or top ) ) is True
+( ( top or bot ) and ( bot or bot ) ) is False
+( ( bot or top ) and top ) is True
+( ( bot or top ) and ( top and top ) ) is True
+( ( bot or top ) and ( top and bot ) ) is False
+( ( bot or top ) and ( bot and top ) ) is False
+( ( bot or top ) and ( bot and bot ) ) is False
+( ( bot or top ) and bot ) is False
+( ( bot or top ) and ( not top ) ) is False
+( ( bot or top ) and ( not bot ) ) is True
+( ( bot or top ) and ( top or top ) ) is True
+( ( bot or top ) and ( top or bot ) ) is True
+( ( bot or top ) and ( bot or top ) ) is True
+( ( bot or top ) and ( bot or bot ) ) is False
+( ( bot or bot ) and top ) is False
+( ( bot or bot ) and ( top and top ) ) is False
+( ( bot or bot ) and ( top and bot ) ) is False
+( ( bot or bot ) and ( bot and top ) ) is False
+( ( bot or bot ) and ( bot and bot ) ) is False
+( ( bot or bot ) and bot ) is False
+( ( bot or bot ) and ( not top ) ) is False
+( ( bot or bot ) and ( not bot ) ) is False
+( ( bot or bot ) and ( top or top ) ) is False
+( ( bot or bot ) and ( top or bot ) ) is False
+( ( bot or bot ) and ( bot or top ) ) is False
+( ( bot or bot ) and ( bot or bot ) ) is False
+bot is False
+( not top ) is False
+( not ( top and top ) ) is False
+( not ( top and bot ) ) is True
+( not ( bot and top ) ) is True
+( not ( bot and bot ) ) is True
+( not bot ) is True
+( not ( not top ) ) is True
+( not ( not bot ) ) is False
+( not ( top or top ) ) is False
+( not ( top or bot ) ) is False
+( not ( bot or top ) ) is False
+( not ( bot or bot ) ) is True
+( top or top ) is True
+( top or ( top and top ) ) is True
+( top or ( top and bot ) ) is True
+( top or ( bot and top ) ) is True
+( top or ( bot and bot ) ) is True
+( top or bot ) is True
+( top or ( not top ) ) is True
+( top or ( not bot ) ) is True
+( top or ( top or top ) ) is True
+( top or ( top or bot ) ) is True
+( top or ( bot or top ) ) is True
+( top or ( bot or bot ) ) is True
+( ( top and top ) or top ) is True
+( ( top and top ) or ( top and top ) ) is True
+( ( top and top ) or ( top and bot ) ) is True
+( ( top and top ) or ( bot and top ) ) is True
+( ( top and top ) or ( bot and bot ) ) is True
+( ( top and top ) or bot ) is True
+( ( top and top ) or ( not top ) ) is True
+( ( top and top ) or ( not bot ) ) is True
+( ( top and top ) or ( top or top ) ) is True
+( ( top and top ) or ( top or bot ) ) is True
+( ( top and top ) or ( bot or top ) ) is True
+( ( top and top ) or ( bot or bot ) ) is True
+( ( top and bot ) or top ) is True
+( ( top and bot ) or ( top and top ) ) is True
+( ( top and bot ) or ( top and bot ) ) is False
+( ( top and bot ) or ( bot and top ) ) is False
+( ( top and bot ) or ( bot and bot ) ) is False
+( ( top and bot ) or bot ) is False
+( ( top and bot ) or ( not top ) ) is False
+( ( top and bot ) or ( not bot ) ) is True
+( ( top and bot ) or ( top or top ) ) is True
+( ( top and bot ) or ( top or bot ) ) is True
+( ( top and bot ) or ( bot or top ) ) is True
+( ( top and bot ) or ( bot or bot ) ) is False
+( ( bot and top ) or top ) is True
+( ( bot and top ) or ( top and top ) ) is True
+( ( bot and top ) or ( top and bot ) ) is False
+( ( bot and top ) or ( bot and top ) ) is False
+( ( bot and top ) or ( bot and bot ) ) is False
+( ( bot and top ) or bot ) is False
+( ( bot and top ) or ( not top ) ) is False
+( ( bot and top ) or ( not bot ) ) is True
+( ( bot and top ) or ( top or top ) ) is True
+( ( bot and top ) or ( top or bot ) ) is True
+( ( bot and top ) or ( bot or top ) ) is True
+( ( bot and top ) or ( bot or bot ) ) is False
+( ( bot and bot ) or top ) is True
+( ( bot and bot ) or ( top and top ) ) is True
+( ( bot and bot ) or ( top and bot ) ) is False
+( ( bot and bot ) or ( bot and top ) ) is False
+( ( bot and bot ) or ( bot and bot ) ) is False
+( ( bot and bot ) or bot ) is False
+( ( bot and bot ) or ( not top ) ) is False
+( ( bot and bot ) or ( not bot ) ) is True
+( ( bot and bot ) or ( top or top ) ) is True
+( ( bot and bot ) or ( top or bot ) ) is True
+( ( bot and bot ) or ( bot or top ) ) is True
+( ( bot and bot ) or ( bot or bot ) ) is False
+( bot or top ) is True
+( bot or ( top and top ) ) is True
+( bot or ( top and bot ) ) is False
+( bot or ( bot and top ) ) is False
+( bot or ( bot and bot ) ) is False
+( bot or bot ) is False
+( bot or ( not top ) ) is False
+( bot or ( not bot ) ) is True
+( bot or ( top or top ) ) is True
+( bot or ( top or bot ) ) is True
+( bot or ( bot or top ) ) is True
+( bot or ( bot or bot ) ) is False
+( ( not top ) or top ) is True
+( ( not top ) or ( top and top ) ) is True
+( ( not top ) or ( top and bot ) ) is False
+( ( not top ) or ( bot and top ) ) is False
+( ( not top ) or ( bot and bot ) ) is False
+( ( not top ) or bot ) is False
+( ( not top ) or ( not top ) ) is False
+( ( not top ) or ( not bot ) ) is True
+( ( not top ) or ( top or top ) ) is True
+( ( not top ) or ( top or bot ) ) is True
+( ( not top ) or ( bot or top ) ) is True
+( ( not top ) or ( bot or bot ) ) is False
+( ( not bot ) or top ) is True
+( ( not bot ) or ( top and top ) ) is True
+( ( not bot ) or ( top and bot ) ) is True
+( ( not bot ) or ( bot and top ) ) is True
+( ( not bot ) or ( bot and bot ) ) is True
+( ( not bot ) or bot ) is True
+( ( not bot ) or ( not top ) ) is True
+( ( not bot ) or ( not bot ) ) is True
+( ( not bot ) or ( top or top ) ) is True
+( ( not bot ) or ( top or bot ) ) is True
+( ( not bot ) or ( bot or top ) ) is True
+( ( not bot ) or ( bot or bot ) ) is True
+( ( top or top ) or top ) is True
+( ( top or top ) or ( top and top ) ) is True
+( ( top or top ) or ( top and bot ) ) is True
+( ( top or top ) or ( bot and top ) ) is True
+( ( top or top ) or ( bot and bot ) ) is True
+( ( top or top ) or bot ) is True
+( ( top or top ) or ( not top ) ) is True
+( ( top or top ) or ( not bot ) ) is True
+( ( top or top ) or ( top or top ) ) is True
+( ( top or top ) or ( top or bot ) ) is True
+( ( top or top ) or ( bot or top ) ) is True
+( ( top or top ) or ( bot or bot ) ) is True
+( ( top or bot ) or top ) is True
+( ( top or bot ) or ( top and top ) ) is True
+( ( top or bot ) or ( top and bot ) ) is True
+( ( top or bot ) or ( bot and top ) ) is True
+( ( top or bot ) or ( bot and bot ) ) is True
+( ( top or bot ) or bot ) is True
+( ( top or bot ) or ( not top ) ) is True
+( ( top or bot ) or ( not bot ) ) is True
+( ( top or bot ) or ( top or top ) ) is True
+( ( top or bot ) or ( top or bot ) ) is True
+( ( top or bot ) or ( bot or top ) ) is True
+( ( top or bot ) or ( bot or bot ) ) is True
+( ( bot or top ) or top ) is True
+( ( bot or top ) or ( top and top ) ) is True
+( ( bot or top ) or ( top and bot ) ) is True
+( ( bot or top ) or ( bot and top ) ) is True
+( ( bot or top ) or ( bot and bot ) ) is True
+( ( bot or top ) or bot ) is True
+( ( bot or top ) or ( not top ) ) is True
+( ( bot or top ) or ( not bot ) ) is True
+( ( bot or top ) or ( top or top ) ) is True
+( ( bot or top ) or ( top or bot ) ) is True
+( ( bot or top ) or ( bot or top ) ) is True
+( ( bot or top ) or ( bot or bot ) ) is True
+( ( bot or bot ) or top ) is True
+( ( bot or bot ) or ( top and top ) ) is True
+( ( bot or bot ) or ( top and bot ) ) is False
+( ( bot or bot ) or ( bot and top ) ) is False
+( ( bot or bot ) or ( bot and bot ) ) is False
+( ( bot or bot ) or bot ) is False
+( ( bot or bot ) or ( not top ) ) is False
+( ( bot or bot ) or ( not bot ) ) is True
+( ( bot or bot ) or ( top or top ) ) is True
+( ( bot or bot ) or ( top or bot ) ) is True
+( ( bot or bot ) or ( bot or top ) ) is True
+( ( bot or bot ) or ( bot or bot ) ) is False
