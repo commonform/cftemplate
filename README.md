@@ -44,7 +44,7 @@ See `tests/boolops/input.cftemplate` for comprehensive examples.
 
 ## About Business Logic
 
-Maybe you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off, and you want the propositions in those `if/unless` conditions may be determined by business rules operating against the values in your `variables.json`.
+Maybe you use `if` and `unless` conditionals in the `cftemplate` to switch blocks of text on and off. Maybe the propositions in those `if/unless` conditions are determined by business rules operating against the values in your `variables.json`.
 
 For example, you might have `(( if (extendedAppendix and (not skipAllExtensions) ) begin ))`. These keys might not exist in the user-supplied context JSON, but could be computed by applying rules to values in the context. Those rules are called business logic.
 
