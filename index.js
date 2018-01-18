@@ -92,6 +92,7 @@ function cftemplate (
         var project = match[2]
         var edition = match[3]
         getPublication(
+          API,
           publisher,
           project,
           edition,
