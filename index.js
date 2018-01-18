@@ -27,6 +27,8 @@ var path = require('path')
 var plaintemplate = require('plaintemplate')
 var stringifyForm = require('commonform-markup-stringify')
 
+var API = 'api.commonform.org'
+
 var EMPTY_LINE = /^( *)$/
 // Regular expression for references to publications.
 // Example: `test/test-form@1e`
@@ -78,7 +80,7 @@ function cftemplate (
       // `(( 543cd5e172cfc6b3c20a0d91855fea44b5bf2fd1da7bf6b7c69f... ))`
       // Inserts a form from api.commonform.org, by digest.
       if (isDigest(directive)) {
-        getForm(directive, e(callback, function (form) {
+        getForm(API, directive, e(callback, function (form) {
           callback(null, format(form))
         }))
 
@@ -98,7 +100,7 @@ function cftemplate (
               addPosition(error)
               callback(error)
             } else {
-              getForm(publication.digest, e(callback, function (form) {
+              getForm(API, publication.digest, e(callback, function (form) {
                 callback(null, format(form))
               }))
             }
