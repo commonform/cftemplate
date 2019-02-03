@@ -27,7 +27,7 @@ if (argv.length < 3 || argv.length > 4) {
   try {
     var template = fs.readFileSync(templateFile).toString()
   } catch (error) {
-    process.stderr.write('Could note read template.\n')
+    process.stderr.write('Could not read template.\n')
     process.exit(1)
   }
   cftemplate(
